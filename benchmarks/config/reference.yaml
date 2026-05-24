@@ -1,0 +1,41 @@
+# Shared benchmark reference values and path templates.
+# Copy or override locally; do not commit machine-specific absolute paths.
+
+data_root: "${SPORTIFY_DATA_ROOT:-~/data/sportify}"
+
+paths:
+  soccernet_gs: "${data_root}/SoccerNetGS"
+  vendor: "${data_root}/vendor"
+  sn_gamestate: "${data_root}/vendor/sn-gamestate"
+  match_video: "${data_root}/matches"
+
+# SoccerNet GSR published baseline (CVPRW'24 paper / project docs)
+soccernet_gsr_baseline:
+  end_to_end_fps: 1.1
+  gs_hota_percent: 22.26
+  reference_gpu: "NVIDIA A100"
+  clip_duration_sec: 30
+  full_match_minutes: 90
+  full_match_wall_hours: 36  # ~1.1 FPS extrapolation
+
+  # Per-module throughput (from Sportify design docs vs SoccerNet architecture)
+  module_fps:
+    pitch_localization_tvcalib: 2.9
+    camera_calibration_tvcalib: 7.6
+    reid_prtreid: 14.5
+    jersey_ocr_mmocr: 3.8
+
+# Sportify POC targets (TBD — update as pipeline exists)
+sportify_poc:
+  target_effective_fps: null  # set when reference hardware is chosen
+  target_full_match_hours: null
+  frame_stride_default: 1
+  primary_metric: effective_fps
+  secondary_metric: gs_hota  # optional
+
+hardware:
+  # Fill in per run; copied into result JSON
+  gpu: null
+  cpu: null
+  ram_gb: null
+  vps_provider: null

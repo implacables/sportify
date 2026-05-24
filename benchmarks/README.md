@@ -1,0 +1,39 @@
+# Sportify Benchmarks
+
+Benchmark harness for the reconstruction POC. Two tracks, one primary gate:
+
+| Track | Purpose | POC gate? |
+|-------|---------|-----------|
+| **[throughput/](throughput/)** | Wall-clock FPS, conditional-step counts, cost model vs SoccerNet ~1.1 FPS | **Yes** |
+| **[soccernet-gsr/](soccernet-gsr/)** | Official GS-HOTA on SoccerNet-GS clips; baseline reproduction | Optional (sanity / thesis) |
+
+## Layout
+
+```
+benchmarks/
+├── config/reference.yaml       # Shared constants (baseline FPS, hardware notes)
+├── soccernet-gsr/              # Official SoccerNet GSR baseline + GS-HOTA
+│   ├── investigation.md        # Task, dataset, metric, baseline summary
+│   ├── manifests/              # Clip lists for smoke / full eval
+│   └── run-baseline.sh         # Wrapper around sn-gamestate / TrackLab
+├── throughput/                 # Sportify pipeline efficiency benchmarks
+│   ├── manifests/              # Reference videos (paths, stride, roster refs)
+│   └── schemas/                # Result JSON schema
+└── results/                    # Run outputs (gitignored except README)
+```
+
+## Workflow
+
+1. **Reproduce reference** — Run `soccernet-gsr/run-baseline.sh` on a small validation subset; record FPS and GS-HOTA in `results/`.
+2. **Measure Sportify** — Run the reconstruction pipeline on the same clips (or representative amateur footage) with `throughput/` manifests; compare `effective_fps` and conditional-step counts.
+3. **Record honestly** — Each run writes a timestamped folder under `results/` with hardware metadata, config snapshot, and metrics.
+
+## Data paths
+
+Large assets stay outside git. Set `SPORTIFY_DATA_ROOT` (default: `~/data/sportify`) for datasets, vendor clones, and match video. See [config/reference.yaml](config/reference.yaml).
+
+## Related docs
+
+- [SoccerNet GSR investigation](soccernet-gsr/investigation.md)
+- [Pipeline spec — performance baseline](../sportify-game-reconstruction/docs/spec/overview.md#11-performance-baseline-soccernet-gsr)
+- [Product stages](../docs/product-stages.md)

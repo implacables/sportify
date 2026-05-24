@@ -1,0 +1,14 @@
+# Small validation subset for baseline smoke tests and throughput comparison.
+# Clip IDs match SoccerNet-GS naming (SNGS-XXX).
+
+name: valid-quick
+description: Minimal validation clips for baseline reproduction
+split: valid
+clips:
+  - id: SNGS-021
+    notes: Default single-clip demo in upstream README
+  - id: SNGS-013
+  - id: SNGS-175
+
+# Upstream runs one sequence by default; extend run-baseline.sh to iterate this list.
+frame_range: all  # 30s clips @ broadcast FPS

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sportify.local/benchmarks/throughput/run-result.schema.json",
+  "title": "Sportify throughput benchmark result",
+  "type": "object",
+  "required": [
+    "benchmark",
+    "timestamp_utc",
+    "manifest_name",
+    "pipeline",
+    "hardware",
+    "metrics",
+    "status"
+  ],
+  "properties": {
+    "benchmark": { "const": "throughput" },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "manifest_name": { "type": "string" },
+    "pipeline": { "enum": ["sportify", "soccernet-gsr"] },
+    "hardware": {
+      "type": "object",
+      "properties": {
+        "gpu": { "type": ["string", "null"] },
+        "cpu": { "type": ["string", "null"] },
+        "ram_gb": { "type": ["number", "null"] },
+        "vps_provider": { "type": ["string", "null"] }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["frames_processed", "wall_clock_seconds", "effective_fps"],
+      "properties": {
+        "frames_processed": { "type": "integer", "minimum": 0 },
+        "wall_clock_seconds": { "type": "number", "minimum": 0 },
+        "effective_fps": { "type": "number", "minimum": 0 },
+        "conditional_steps": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "gs_hota": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "baseline_comparison": {
+          "type": "object",
+          "properties": {
+            "soccernet_fps": { "type": "number", "default": 1.1 },
+            "hours_at_baseline_fps": { "type": "number" },
+            "speedup_vs_baseline": { "type": "number" }
+          }
+        }
+      }
+    },
+    "status": { "enum": ["started", "finished", "failed"] },
+    "error": { "type": ["string", "null"] },
+    "notes": { "type": ["string", "null"] }
+  }
+}

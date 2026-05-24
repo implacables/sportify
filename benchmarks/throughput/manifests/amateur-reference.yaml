@@ -1,0 +1,25 @@
+# Placeholder for representative amateur match footage (DJI Osmo 360).
+# Fill paths when reference video and venue homography exist.
+
+name: amateur-reference
+description: TBD — elevated side-view amateur match for POC acceptance
+status: placeholder
+
+source:
+  type: local_video
+  path: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/matches/reference-match.mp4"
+  camera: dji-osmo-360
+  expected_duration_min: 90
+
+venue:
+  venue_id: venue_reference
+  homography_path: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/venues/venue_reference/homography.json"
+
+roster:
+  roster_id: roster_reference
+  path: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/rosters/roster_reference.json"
+
+processing:
+  frame_stride: 5  # POC default per pipeline spec draft
+
+pipeline: sportify

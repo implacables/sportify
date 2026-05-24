@@ -1,0 +1,17 @@
+# Shared SoccerNet-GS clip for throughput comparison (baseline vs Sportify).
+# Use same clip ID when running soccernet-gsr and sportify pipeline.
+
+name: soccernet-clip-021
+description: Single validation clip — throughput parity check
+source:
+  type: soccernet_gs
+  split: valid
+  clip_id: SNGS-021
+  data_root: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/SoccerNetGS"
+
+processing:
+  frame_stride: 1
+  # Sportify-only: stored homography simulates venue setup
+  homography_mode: from_soccernet_labels  # vs stored_venue for amateur footage
+
+pipeline: sportify  # or soccernet-gsr when running baseline

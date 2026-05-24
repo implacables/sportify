@@ -1,0 +1,43 @@
+# Benchmark outputs (manifests and schemas are tracked)
+benchmarks/results/*
+!benchmarks/results/.gitkeep
+!benchmarks/results/README.md
+
+# External benchmark dependencies (clone per benchmarks/soccernet-gsr/README.md)
+benchmarks/vendor/
+
+# Datasets, model weights, large media
+data/
+*.pkl
+*.pklz
+*.pt
+*.pth
+*.onnx
+*.mp4
+*.mkv
+*.avi
+*.mov
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
