@@ -6,181 +6,160 @@
 
 ---
 
+## Product Requirement
+
+**2D ball tracking is sufficient.** We do not need height (`z`) or full 3D trajectory for current product goals.
+
+| Requirement | Target |
+|-------------|--------|
+| Output | Image `(u, v)` and/or field-plane `(x, y)` via stored homography |
+| **Tracking consistency** | **≥65%** on labeled evaluation footage (see metric below) |
+| GPU cost | Must not dominate player reconstruction throughput |
+
+Homography footpoint projection is an acceptable approximation even when the ball is briefly airborne — errors are tolerable at this consistency bar.
+
+---
+
 ## Context
 
-Reliable ball tracking has not been achieved consistently on Sportify footage. This document records an online/literature investigation into approaches that fit our constraints:
+Reliable ball tracking has not been achieved consistently on Sportify footage. This document records an online/literature investigation and the **2D-only** spike plan.
 
 | Constraint | Implication |
 |------------|-------------|
 | **Fixed elevated side-view camera** | No pan/zoom compensation; ball may appear larger than broadcast (~10–30 px) but remains a small object |
-| **Stored venue homography** | Ground-plane `(x, y)` projection is cheap; **height is not** resolved by homography alone |
-| **VPS / GPU cost sensitivity** | Detection must be sparse or lightweight; filtering can run on CPU |
+| **Stored venue homography** | Cheap `(x, y)` on pitch plane from detection footpoint |
+| **VPS / GPU cost sensitivity** | Detection sparse or lightweight; association/interpolation on CPU |
 | **POC focus** | Player GSR efficiency is primary; ball is **not** a POC deliverable today |
 
-The [pipeline spec](../spec/overview.md) (v0.3) defines player reconstruction only. Ball tracking is documented here as a **separate research track** with a phased spike plan.
+The [pipeline spec](../spec/overview.md) (v0.3) defines player reconstruction only. Ball tracking is a **separate research track** until Phase 1 passes the consistency bar.
 
 ---
 
 ## Problem Statement
 
-We need a method that can, from a single elevated viewpoint:
+From a single elevated viewpoint we need:
 
-1. **Detect and track** the ball with reasonable temporal consistency (occlusions, motion blur, clutter).
-2. **Estimate field position** `(x, y)` in meters.
-3. **Estimate height** `z` when the ball is airborne — homography footpoint projection is wrong off the ground plane.
+1. **Detect and track** the ball with enough temporal continuity for downstream use (occlusions, motion blur, clutter).
+2. **Project to field `(x, y)`** using stored homography.
 
-These goals conflict with cost: broadcast-grade ball pipelines use dedicated detectors plus heavy temporal models. SoccerNet's own tracking benchmark treats the ball as the hardest class (baseline end-to-end HOTA **42.38** on [SoccerNet-Tracking](https://github.com/SoccerNet/sn-tracking)).
+Height and 3D trajectory were investigated but are **out of scope** for Sportify — see [Appendix: 3D / height (not required)](#appendix-3d--height-not-required).
+
+Broadcast-grade ball pipelines remain expensive; SoccerNet tracking baseline end-to-end HOTA is **42.38** ([SoccerNet-Tracking](https://github.com/SoccerNet/sn-tracking)). Our bar is pragmatic: **≥65% consistency**, not broadcast accuracy.
 
 ---
 
-## Why Single-Camera Height Is Hard
+## Tracking Consistency Metric
 
-From one viewpoint, image coordinates `(u, v)` define a **ray** in 3D, not a unique world point. A ground homography maps pixels to the **pitch plane** (`z = 0`). An airborne ball projected to the ground is systematically wrong.
+Primary metric for go/no-go and model comparison:
 
-Height (or depth) requires at least one extra constraint:
+**Tracking consistency** = (frames where pipeline outputs a valid ball position) / (frames where ball is **ground-truth visible**)
 
-| Cue | Mechanism | Needs beyond homography? |
-|-----|-----------|---------------------------|
-| Apparent ball size | Known real diameter (≈22 cm) + diameter in pixels + camera calibration | **Yes** — intrinsics/extrinsics |
-| Ballistic motion | Parabola / gravity model over a short window | Calibration helpful; physics when in flight |
-| Multi-mode temporal filter | Possession vs free-flight vs occluded states | 2D detections + player positions |
-| Homography footpoint | Ray–ground intersection | **No** — but only valid when ball is on grass |
+A frame counts as a **valid output** if any of:
 
-**Conclusion:** Phase 1 can evaluate **2D detection and ground-plane tracking** using existing venue homography. Phases 2–3 add calibration and temporal/3D models only if Phase 1 recall is acceptable.
+- **Detection hit** — predicted center within **15 px** of label (adjust if median ball diameter differs on our footage), or bbox IoU ≥ 0.3.
+- **Short-gap interpolation** — no detection, but position interpolated from detections ≤ **5 frames** before/after (linear or Kalman); gap counted as valid only once per contiguous miss.
+
+Frames labeled **occluded** or **not visible** are excluded from the denominator.
+
+| Result | Meaning |
+|--------|---------|
+| ≥65% | **Pass** — adopt detector + lightweight tracker for integration planning |
+| <65% | **Fail** — try next candidate, fine-tune on venue footage, or revisit frame stride / resolution |
+
+Secondary metrics (report alongside, not gating): precision, typical ball size in px, false-positive rate, GPU ms per inference frame.
 
 ---
 
 ## Investigation Summary
 
-### Approaches surveyed
-
-#### Detection (GPU-bound)
+### Detection candidates (GPU-bound)
 
 | Approach | Efficiency | Soccer fit | Output | Notes |
 |----------|------------|------------|--------|-------|
-| [RF-DETR Nano/Small](https://github.com/roboflow/rfdetr) | Low–medium GPU | Good after fine-tune | Bbox | [AutoCam-AI](https://github.com/chele-s/AutoCam-AI) pattern: detect at 720p/1080p, EKF on CPU |
-| [RF-DETR SoccerNet fine-tune](https://huggingface.co/julianzu9612/RFDETR-Soccernet) | Medium–high | Strong | Bbox | Ball F1 ~74.7%; misses heavy occlusion |
-| [TrackNetV4](https://github.com/TrackNetV4/TrackNetV4) | Moderate | Tennis/badminton; soccer TBD | Heatmap `(x, y)` image coords | Motion-attention; needs domain fine-tune |
-| [VballNet / VballNetFast](https://github.com/asigatchov/vball-net) | **100–300 FPS CPU** (ONNX) | Volleyball | `(x, y)` only | Proves heatmap trackers can be very cheap; not soccer-validated |
-| YOLO + ByteTrack | Low per frame | **Poor ball recall** out of box | Bbox | Common tutorials; interpolation hides gaps |
-| Color / Hough / background subtraction | Minimal | **Fragile** | Blob | Only viable in controlled lighting/ball color |
-
-#### 3D / height (mostly CPU after detection)
-
-| Approach | Efficiency | Height? | Notes |
-|----------|------------|---------|-------|
-| [Van Zandycke et al., CVPR 2022](https://arxiv.org/abs/2204.00003) — diameter CNN on detection patch | Small CNN | **Yes** | ~1.6 px diameter error; needs full camera calibration |
-| [Yandex 2025 — single-camera 3D trajectory](https://arxiv.org/abs/2506.07981) | Filter **50+ FPS CPU** | **Yes** | Multi-mode beam search; no public code yet |
-| EKF + ballistic constraints | CPU | Partial | Good in flight; fails long occlusions without mode switching |
-| Trajectory parabola fit (offline window) | CPU | Partial | Free-flight segments only |
-
-#### What does not solve height
-
-- Homography on bbox center alone  
-- ByteTrack / DeepSORT on ball bbox  
-- TrackNet-style `(x, y)` heatmaps without diameter or physics  
-- Event-spotting models (e.g. SoccerNet ball action spotting) — actions, not continuous position  
+| [RF-DETR Nano/Small](https://github.com/roboflow/rfdetr) | Low–medium GPU | Good after fine-tune | Bbox | [AutoCam-AI](https://github.com/chele-s/AutoCam-AI): detect at 720p, filter on CPU |
+| [RF-DETR SoccerNet fine-tune](https://huggingface.co/julianzu9612/RFDETR-Soccernet) | Medium–high | Strong | Bbox | Ball F1 ~74.7%; candidate if Nano recall is low |
+| [TrackNetV4](https://github.com/TrackNetV4/TrackNetV4) | Moderate | Tennis/badminton; soccer TBD | Heatmap `(u, v)` | Needs domain fine-tune |
+| [VballNet / VballNetFast](https://github.com/asigatchov/vball-net) | **100–300 FPS CPU** (ONNX) | Volleyball | `(u, v)` | Cheap; soccer not validated |
+| YOLO + ByteTrack | Low per frame | **Poor ball recall** | Bbox | Sanity baseline only |
+| Color / Hough / background subtraction | Minimal | **Fragile** | Blob | Not primary |
 
 ### Sportify-specific advantages
 
-- **Fixed camera** — no optical-flow camera compensation; detection can run every *k* frames with interpolation.
-- **Stored homography** — cheap ground `(x, y)` when ball is on the pitch.
-- **Elevated side view** — likely larger ball in pixels than broadcast; still occluded often.
+- **Fixed camera** — detect every *k* frames; interpolate on CPU.
+- **Stored homography** — `(x, y)` without per-frame calibration.
+- **Elevated side view** — often larger ball in px than broadcast.
 
-### Sportify-specific gaps
+### Gaps
 
-- Venue schema today: homography + dimensions only. **3D height requires extending setup** with camera intrinsics/extrinsics (Phase 2).
 - No in-repo ball labels or benchmark harness yet.
-- Amateur conditions (lighting, ball color, mud) differ from SoccerNet broadcast distribution.
+- Amateur conditions differ from SoccerNet broadcast distribution.
 
 ### Datasets for evaluation / fine-tuning
 
 | Resource | Use |
 |----------|-----|
-| [SoccerNet-Tracking](https://github.com/SoccerNet/sn-tracking) | Ball tracklets; MOT benchmark |
-| [SoccerTrack v2](https://atomscott.github.io/SoccerTrack-v2/) | Fixed panoramic amateur matches — closer to our context |
-| Open Soccer Ball / Roboflow exports | Small-ball detection fine-tuning |
-| **Own venue footage** | Primary — domain match matters most |
+| [SoccerNet-Tracking](https://github.com/SoccerNet/sn-tracking) | Ball tracklets; external benchmark |
+| [SoccerTrack v2](https://atomscott.github.io/SoccerTrack-v2/) | Fixed amateur camera — closer to our context |
+| Open Soccer Ball / Roboflow exports | Fine-tune if off-the-shelf <65% |
+| **Own venue footage** | **Primary** evaluation set for consistency metric |
 
 ---
 
-## Recommended Phased Investigation
+## Phase 1 — 2D Detection & Tracking Spike ✅ *Active plan*
 
-Phases are ordered by **increasing complexity and dependency**. Only **Phase 1** is recommended to start now.
-
-### Phase 1 — 2D detection spike on our footage ✅ *Recommended*
-
-**Goal:** Measure whether a lightweight detector can find the ball often enough on real Sportify-style elevated footage.
+**Goal:** Hit **≥65% tracking consistency** on labeled Sportify footage with a lightweight 2D pipeline.
 
 **Scope:**
 
-- Sample ~500–1000 frames (or ~10 min of video) from target venue/camera setup.
-- Manual labels: ball visible `(u, v)` or bbox; mark occluded/missing.
-- Benchmark candidates (same hardware as POC VPS target when possible):
-  - RF-DETR-Nano or RF-DETR-Small (off-the-shelf + optional SoccerNet fine-tune)
-  - YOLOv8n baseline (sanity check)
-  - TrackNetV4 or VballNet-style heatmap model (optional comparison if time permits)
-- Run at 640 and 1280 input; optionally every 3rd–5th frame.
-- Metrics: recall, precision, typical ball size in px, false positives (lines, shirts, specular highlights).
+- Sample ~500–1000 frames (or ~10 min) from target venue/camera setup.
+- Manual labels: ball visible `(u, v)` or bbox; mark occluded / not visible (excluded from metric).
+- Benchmark (POC VPS hardware when possible):
+  - RF-DETR-Nano or RF-DETR-Small (off-the-shelf; SoccerNet fine-tune if needed)
+  - YOLOv8n baseline
+  - TrackNetV4 or VballNet (optional)
+- Input sizes: 640 and 1280; frame stride every 1–5 frames.
+- CPU-side: linear or Kalman interpolation for gaps ≤5 frames; optional jump rejection (>120 px, AutoCam pattern).
 
-**Success criteria (TBD after first run):**
+**Success criteria:**
 
-- Ball recall high enough that temporal interpolation could plausibly bridge gaps (exact threshold to be set from label stats).
-- GPU cost compatible with running **alongside** player reconstruction (not dominating the ~1.1 FPS SoccerNet baseline comparison).
+| Criterion | Target |
+|-----------|--------|
+| Tracking consistency | **≥65%** |
+| GPU cost | Compatible with running alongside player reconstruction |
 
 **Deliverables:**
 
 - Labeled frame subset (location TBD)
-- Benchmark script + results table
-- Go / no-go note for Phase 2
+- Benchmark script + results table (consistency, precision, ms/frame)
+- Selected model + config, or fine-tune plan if all candidates <65%
 
-**Explicitly out of scope for Phase 1:** height estimation, venue calibration changes, integration into `reconstruction.json`.
+**In scope:** 2D `(u, v)`, homography → `(x, y)`, lightweight temporal glue.
 
----
-
-### Phase 2 — Ground position + optional 3D height ⏸ *Deferred pending Phase 1*
-
-**Goal:** Map detections to field coordinates; add `z` if calibration is extended.
-
-**Scope:**
-
-- **Ground plane:** project detection footpoint (or bbox bottom center) through stored homography → `(x, y)`.
-- **Height:** extend venue setup with camera intrinsics/extrinsics; implement diameter-based 3D (Van Zandycke-style small CNN on 64×64 patches) or adopt temporal filter when Yandex code is available.
-- CPU-side association: Kalman / short-gap interpolation; jump rejection (see AutoCam EKF patterns).
-
-**Gate:** Phase 1 recall meets agreed threshold.
+**Out of scope:** height / 3D, venue intrinsics, `reconstruction.json` integration (until pass + product decision).
 
 ---
 
-### Phase 3 — Temporal robustness under occlusion ⏸ *Deferred*
-
-**Goal:** Maintain plausible trajectories through possession, kicks, and multi-frame occlusion.
-
-**Scope:**
-
-- Multi-mode state machine (free flight / possession / occluded / out of play).
-- Fuse ball track with player field positions from GSR pipeline when ball is near a player.
-- Ballistic EKF segments for airborne phases.
-- Evaluate on longer clips; document failure modes (crowded box, goalmouth, motion blur).
-
-**Gate:** Phase 2 ground `(x, y)` stable enough to justify temporal investment.
-
----
-
-## Architecture Sketch (if Phase 1 succeeds)
-
-Target end-state — **not** to be built until phased gates pass:
+## Target Architecture (2D)
 
 ```
 Video frame
-    → [every k frames] RF-DETR-Nano @ 720p
-    → [if detected] optional diameter CNN (Phase 2)
-    → 3D ray + ball size + camera calib (Phase 2)
-    → CPU filter / interpolation (Phase 2–3)
-    → field (x, y, z)
+    → [every k frames] RF-DETR-Nano @ 720p  (or winning Phase 1 model)
+    → CPU: interpolate / Kalman for gaps ≤5 frames
+    → homography: footpoint → field (x, y)
+    → ball track artifact (format TBD)
 ```
 
 Player reconstruction runs in parallel; ball path must not regress POC throughput targets.
+
+---
+
+## Appendix: 3D / height (not required)
+
+Investigated for completeness; **not planned** unless product requirements change.
+
+From one camera, `(u, v)` alone does not fix depth. Height needs ball diameter + full camera calibration, ballistic models, or multi-mode temporal filters ([Van Zandycke CVPR 2022](https://arxiv.org/abs/2204.00003), [Yandex 2025](https://arxiv.org/abs/2506.07981)). Homography footpoint is wrong off the ground plane but acceptable for our **≥65% 2D** bar.
+
+Previously drafted Phase 2 (3D height) and Phase 3 (occlusion state machine) are **cancelled** for current scope.
 
 ---
 
@@ -188,8 +167,9 @@ Player reconstruction runs in parallel; ball path must not regress POC throughpu
 
 | Date | Decision |
 |------|----------|
-| 2026-05-24 | Literature/code investigation complete. Full 3D pipeline deferred; **Phase 1 2D detection spike approved** as next experiment. |
-| 2026-05-24 | Ball remains **out of reconstruction POC spec** until Phase 1 results and product decision. |
+| 2026-05-24 | Literature investigation complete. **2D only**; height/3D out of scope. |
+| 2026-05-24 | **Phase 1 spike approved** — target **≥65% tracking consistency**. |
+| 2026-05-24 | Ball remains **out of reconstruction POC spec** until Phase 1 pass + product decision. |
 
 ---
 
@@ -197,16 +177,15 @@ Player reconstruction runs in parallel; ball path must not regress POC throughpu
 
 | Resource | URL |
 |----------|-----|
-| Van Zandycke — 3D ball from single calibrated image (CVPR 2022) | https://arxiv.org/abs/2204.00003 |
-| Vorobev et al. — Real-time 3D ball from single camera (2025) | https://arxiv.org/abs/2506.07981 |
 | SoccerNet-Tracking dev kit | https://github.com/SoccerNet/sn-tracking |
 | SoccerTrack v2 (amateur fixed camera) | https://atomscott.github.io/SoccerTrack-v2/ |
 | RF-DETR | https://github.com/roboflow/rfdetr |
 | RF-DETR SoccerNet fine-tune | https://huggingface.co/julianzu9612/RFDETR-Soccernet |
-| AutoCam-AI (RF-DETR + EKF reference pipeline) | https://github.com/chele-s/AutoCam-AI |
+| AutoCam-AI (RF-DETR + EKF reference) | https://github.com/chele-s/AutoCam-AI |
 | TrackNetV4 | https://github.com/TrackNetV4/TrackNetV4 |
-| VballNet (efficient heatmap tracker) | https://github.com/asigatchov/vball-net |
-| SoccerDETR (soccer-specific detector) | https://www.mdpi.com/2227-7080/14/3/142 |
+| VballNet | https://github.com/asigatchov/vball-net |
+| Van Zandycke — 3D ball (appendix only) | https://arxiv.org/abs/2204.00003 |
+| Vorobev et al. — 3D trajectory (appendix only) | https://arxiv.org/abs/2506.07981 |
 
 ---
 

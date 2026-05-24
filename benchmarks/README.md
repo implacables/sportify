@@ -32,6 +32,8 @@ benchmarks/
 
 Large assets stay outside git. Set `SPORTIFY_DATA_ROOT` (default: `~/data/sportify`) for datasets, vendor clones, and match video. See [config/reference.yaml](config/reference.yaml).
 
+**VPS execution:** [docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md](../docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md) — hand this to the VPS agent.
+
 ## Related docs
 
 - [SoccerNet GSR investigation](soccernet-gsr/investigation.md)

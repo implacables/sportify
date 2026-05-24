@@ -251,7 +251,7 @@ sequenceDiagram
 | SoccerNet comparison & step disposition | Defined |
 | VPS execution model | Defined |
 | Internal step graph & conditional triggers | Conceptual only |
-| Ball tracking | Investigated; [Phase 1 spike planned](investigations/ball-tracking.md) — not in POC spec |
+| Ball tracking | [Phase 1 spike](investigations/ball-tracking.md) — 2D only, target ≥65% consistency; not in POC spec |
 | Schemas | Draft at spec level |
 | Implementation | Not started in this repo |
 

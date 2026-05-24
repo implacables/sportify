@@ -25,17 +25,30 @@ soccernet_gsr_baseline:
     reid_prtreid: 14.5
     jersey_ocr_mmocr: 3.8
 
-# Sportify POC targets (TBD — update as pipeline exists)
+# Sportify POC reference hardware (measured values filled after VPS baseline run)
+sportify_reference_hardware:
+  gpu: "NVIDIA GeForce RTX 3090 24GB"
+  note: "Not comparable to paper A100 baseline — measure on this GPU, compare Sportify vs sn-gamestate on same machine"
+
+  # Filled after docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md Task 6
+  measured_sn_gsr_baseline:
+    clip_id: SNGS-021
+    effective_fps: null
+    gs_hota_percent: null
+    wall_clock_seconds: null
+    measured_at: null
+
+# Sportify POC targets (TBD — update after baseline measured)
 sportify_poc:
-  target_effective_fps: null  # set when reference hardware is chosen
+  target_effective_fps: null  # set relative to measured 3090 baseline, not paper 1.1
   target_full_match_hours: null
   frame_stride_default: 1
   primary_metric: effective_fps
-  secondary_metric: gs_hota  # optional
+  secondary_metric: gs_hota  # record for sanity; not POC gate
 
 hardware:
   # Fill in per run; copied into result JSON
-  gpu: null
+  gpu: "NVIDIA GeForce RTX 3090 24GB"
   cpu: null
   ram_gb: null
   vps_provider: null
