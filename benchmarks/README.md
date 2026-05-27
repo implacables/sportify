@@ -6,6 +6,7 @@ Benchmark harness for the reconstruction POC. Three tracks:
 |-------|---------|-----------|
 | **[throughput/](throughput/)** | Wall-clock FPS, conditional-step counts, cost model vs SoccerNet ~1.1 FPS | **Yes** |
 | **[yolo-soccernet/](yolo-soccernet/)** | YOLO person detection — mAP sanity + inference FPS on SoccerNet-GS | Detection step |
+| **[EasyOCR SoccerNet-GS](../sportify-game-reconstruction/experiments/easyocr/soccernet-gs/)** | Jersey OCR on GT player crops (valid clips) | OCR step (experiment) |
 | **[soccernet-gsr/](soccernet-gsr/)** | Official GS-HOTA on SoccerNet-GS clips; baseline reproduction | Optional (sanity / thesis) |
 
 ## Layout

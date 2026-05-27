@@ -12,6 +12,7 @@ experiments/easyocr/
 ├── throughput-and-errors/              # speed + Type I/II + labels (text)
 ├── throughput-errors-and-visualization/  # same + OCR box overlays in notebook
 ├── preprocess-ablation/                # image preprocess A/B table
+├── soccernet-gs/                       # EasyOCR on SoccerNet-GS jersey crops
 └── exploratory-trial-logs/             # legacy detailed trial output
 ```
 
