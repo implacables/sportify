@@ -33,7 +33,7 @@ Per-machine overrides (custom data root, `SOCCERNET_PWD`): copy [scripts/sportif
 
 **VPS example:** repo at `~/sportify`, data at `~/data/sportify`.
 
-**Cloud / Cursor workspace:** if `/workspace` exists and `SPORTIFY_DATA_ROOT` is unset, data goes under `/workspace/` (e.g. `/workspace/SoccerNetGS`). Source `scripts/sportify-env.sh` before setup or Jupyter.
+**Cloud / Cursor workspace:** if `/workspace` exists, `sportify-env.sh` and `setup-bench.sh` use **`/workspace`** even when a previous shell left `SPORTIFY_DATA_ROOT=/root/data/sportify`. To keep the old path: `export SPORTIFY_DATA_ROOT_FORCE=1`.
 
 **Jupyter as root (no `/workspace`):** defaults to `~/data/sportify` → often `/root/data/sportify`. Export `SPORTIFY_DATA_ROOT` explicitly if your data lives elsewhere.
 

@@ -6,5 +6,9 @@
 # export SPORTIFY_DATA_ROOT="/workspace"
 # export SPORTIFY_DATA_ROOT="/mnt/data/sportify"
 
+# Keep /root/data/sportify on a cloud box that has /workspace (not recommended):
+# export SPORTIFY_DATA_ROOT="/root/data/sportify"
+# export SPORTIFY_DATA_ROOT_FORCE=1
+
 # Password from SoccerNet NDA email (if download asks for it)
 # export SOCCERNET_PWD="your-password-here"

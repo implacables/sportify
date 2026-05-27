@@ -7,10 +7,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 # shellcheck source=../../scripts/sportify-default-data-root.sh
 source "${REPO_ROOT}/scripts/sportify-default-data-root.sh"
-sportify_ensure_data_root
-DATA_ROOT="${SPORTIFY_DATA_ROOT}"
-SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
-SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"
 SPLIT="${SPLIT:-valid}"  # valid | train | test — default valid for benchmarks
 
 usage() {
@@ -32,9 +28,10 @@ EOF
 
 SKIP_DOWNLOAD=false
 LOW_VRAM=false
+DATA_ROOT_CLI=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --data-root)     DATA_ROOT="$2"; SN_GS="${DATA_ROOT}/vendor/sn-gamestate"; SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"; shift 2 ;;
+    --data-root)     DATA_ROOT_CLI="$2"; shift 2 ;;
     --split)         SPLIT="$2"; shift 2 ;;
     --skip-download) SKIP_DOWNLOAD=true; shift ;;
     --low-vram)      LOW_VRAM=true; shift ;;
@@ -42,6 +39,15 @@ while [[ $# -gt 0 ]]; do
     *) echo "Unknown option: $1" >&2; usage ;;
   esac
 done
+
+if [[ -n "${DATA_ROOT_CLI}" ]]; then
+  export SPORTIFY_DATA_ROOT="${DATA_ROOT_CLI}"
+else
+  sportify_ensure_data_root
+fi
+DATA_ROOT="${SPORTIFY_DATA_ROOT}"
+SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
+SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"
 
 if ! command -v uv >/dev/null 2>&1; then
   echo "error: uv not found. Install: curl -LsSf https://astral.sh/uv/install.sh | sh" >&2
