@@ -1,10 +1,11 @@
 # Sportify Benchmarks
 
-Benchmark harness for the reconstruction POC. Two tracks, one primary gate:
+Benchmark harness for the reconstruction POC. Three tracks:
 
 | Track | Purpose | POC gate? |
 |-------|---------|-----------|
 | **[throughput/](throughput/)** | Wall-clock FPS, conditional-step counts, cost model vs SoccerNet ~1.1 FPS | **Yes** |
+| **[yolo-soccernet/](yolo-soccernet/)** | YOLO person detection — mAP sanity + inference FPS on SoccerNet-GS | Detection step |
 | **[soccernet-gsr/](soccernet-gsr/)** | Official GS-HOTA on SoccerNet-GS clips; baseline reproduction | Optional (sanity / thesis) |
 
 ## Layout
@@ -17,6 +18,11 @@ benchmarks/
 │   ├── setup-bench.sh          # One-time env setup (vendor + dataset)
 │   ├── manifests/              # Clip lists for smoke / full eval
 │   └── run-baseline.sh         # Wrapper around sn-gamestate / TrackLab
+├── yolo-soccernet/             # YOLO person detection on SoccerNet-GS
+│   ├── spec.md                 # Train / eval / bench specification
+│   ├── investigation.md        # Dataset label structure for conversion
+│   ├── manifests/              # Clip lists for smoke / quick eval
+│   └── schemas/                # Result JSON schema
 ├── throughput/                 # Sportify pipeline efficiency benchmarks
 │   ├── manifests/              # Reference videos (paths, stride, roster refs)
 │   └── schemas/                # Result JSON schema
@@ -37,6 +43,7 @@ Large assets stay outside git. Set `SPORTIFY_DATA_ROOT` (default: `~/data/sporti
 
 ## Related docs
 
+- [YOLO person detection spec](yolo-soccernet/spec.md)
 - [SoccerNet GSR investigation](soccernet-gsr/investigation.md)
 - [Pipeline spec — performance baseline](../sportify-game-reconstruction/docs/spec/overview.md#11-performance-baseline-soccernet-gsr)
 - [Product stages](../docs/product-stages.md)

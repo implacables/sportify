@@ -92,6 +92,8 @@ Evaluation: [sn-trackeval](https://github.com/SoccerNet/sn-trackeval) fork; Coda
 
 **Imperative for POC:** benchmark against this baseline on **throughput** using shared clips where possible; GS-HOTA on a validation subset is optional sanity check, not the POC gate (per [pipeline spec](../../sportify-game-reconstruction/docs/spec/overview.md)).
 
+**YOLO detection bench:** isolate the detection module with single-class person mAP and inference FPS on the same SoccerNet-GS clips — see [yolo-soccernet/spec.md](../yolo-soccernet/spec.md).
+
 ## References
 
 - Paper: [arXiv:2404.11335](https://arxiv.org/abs/2404.11335)

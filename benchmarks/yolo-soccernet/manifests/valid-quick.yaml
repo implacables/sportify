@@ -1,0 +1,28 @@
+# Validation clips for YOLO person-detection eval and throughput bench.
+# Clip IDs match SoccerNet-GS naming (SNGS-XXX).
+# See spec.md §6.3 eval profiles.
+
+name: valid-quick
+description: Minimal validation clips for YOLO eval regression and FPS bench
+split: valid
+class_scheme: person  # single class — categories 1,2,3,7 merged
+
+clips:
+  - id: SNGS-021
+    notes: Default bench clip; upstream GSR demo clip
+  - id: SNGS-022
+  - id: SNGS-023
+
+frame_range: all  # 750 frames per clip @ 25 FPS
+
+data_root: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/SoccerNetGS"
+yolo_dataset: "${SPORTIFY_DATA_ROOT:-~/data/sportify}/yolo-soccernet"
+
+# Default model variants (Phase A — pretrained COCO weights)
+models:
+  throughput: yolo11n.pt
+  accuracy: yolo11m.pt
+
+processing:
+  imgsz: 640
+  batch_size: 1  # bench default; tune for eval

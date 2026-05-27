@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sportify.local/benchmarks/yolo-soccernet/run-result.schema.json",
+  "title": "YOLO SoccerNet-GS benchmark result",
+  "type": "object",
+  "required": [
+    "benchmark",
+    "timestamp_utc",
+    "manifest_name",
+    "phase",
+    "model",
+    "hardware",
+    "metrics",
+    "status"
+  ],
+  "properties": {
+    "benchmark": { "const": "yolo-soccernet" },
+    "timestamp_utc": { "type": "string" },
+    "manifest_name": { "type": "string" },
+    "phase": { "enum": ["eval", "bench", "train"] },
+    "model": {
+      "type": "object",
+      "required": ["variant", "weights", "imgsz"],
+      "properties": {
+        "variant": { "type": "string", "description": "e.g. yolo11n" },
+        "weights": { "type": "string", "description": "Path or filename of weights file" },
+        "imgsz": { "type": "integer", "minimum": 32 },
+        "batch_size": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "properties": {
+        "gpu": { "type": ["string", "null"] },
+        "cpu": { "type": ["string", "null"] },
+        "ram_gb": { "type": ["number", "null"] },
+        "vps_provider": { "type": ["string", "null"] }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "clip_id": { "type": ["string", "null"] },
+        "split": { "type": "string", "enum": ["train", "valid"] },
+        "frames_processed": { "type": "integer", "minimum": 0 },
+        "wall_clock_seconds": { "type": ["number", "null"], "minimum": 0 },
+        "inference_fps": { "type": ["number", "null"], "minimum": 0 },
+        "map50": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "map50_95": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "precision": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "recall": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      }
+    },
+    "status": { "enum": ["started", "finished", "failed"] },
+    "error": { "type": ["string", "null"] },
+    "notes": { "type": ["string", "null"] }
+  }
+}

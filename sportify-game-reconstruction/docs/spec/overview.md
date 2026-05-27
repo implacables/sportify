@@ -49,7 +49,7 @@ The POC succeeds when reconstruction throughput and VPS cost model make **many m
 
 | Step | Disposition | Trigger / notes |
 |------|-------------|-----------------|
-| **Player detection** | Always | Every processed frame (respecting `frame_stride`) |
+| **Player detection** | Always | Every processed frame (respecting `frame_stride`); eval reference: [YOLO SoccerNet spec](../../../benchmarks/yolo-soccernet/spec.md) |
 | **Pitch localization** | **Eliminated** | Never — venue has stored homography |
 | **Per-frame camera calibration** | **Eliminated** | Never — homography from venue setup |
 | **Multi-object tracking** | Always | Link detections across frames |

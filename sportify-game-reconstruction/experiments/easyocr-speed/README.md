@@ -36,6 +36,7 @@ jupyter notebook easyocr_bench.ipynb
 
 Speed, Type I/II, jersey label checks, wrong-file lists, and **in-notebook** OCR box overlays on failures (nothing saved to disk).
 
+**Preprocessing A/B (comparison table):** `easyocr_preprocess_ab.ipynb`  
 **Quick text-only:** `easyocr_benchmark.ipynb`  
 **Legacy / exploratory:** `easyocr_speed.ipynb`
 
@@ -50,6 +51,8 @@ Notebook knobs (`easyocr_bench.ipynb`):
 - `IMAGE_SCALE` — upscale before OCR (default `4`)
 - `OCR_KWARGS` — `readtext` options (`allowlist`, `mag_ratio`, contrast)
 - `MAX_DISPLAY` — cap on failure images shown with boxes (default `30`)
+
+**Preprocessing A/B** (`easyocr_preprocess_ab.ipynb`): runs `none`, `invert`, `clahe`, `clahe_invert`, `hsv_v` on the **same trials** and prints a comparison table (speed, Type I/II, preflight accuracy, deltas vs `none`).
 
 Preflight scans every `with_number/` image before trials. If all show `(none)`, raise `IMAGE_SCALE` or crop tighter on the jersey.
 
