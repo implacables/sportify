@@ -17,7 +17,7 @@ There is no `develop`, release, or long-lived feature branch yet. Add **`feature
 ## Naming
 
 - Use **`experiment/`** (singular), not `experiments/`.
-- `<slug>` is lowercase **kebab-case** and should match the experiment folder when one exists, e.g. `experiment/easyocr-speed` ↔ `sportify-game-reconstruction/experiments/easyocr-speed/`.
+- `<slug>` is lowercase **kebab-case** and should match the experiment folder when one exists, e.g. `experiment/easyocr` ↔ `sportify-game-reconstruction/experiments/easyocr/`.
 - One experiment → one branch. Do not stack unrelated work on the same `experiment/*` branch.
 
 ## Workflow
@@ -56,7 +56,7 @@ Large or machine-local assets (weights, sample images, datasets) stay **out of g
 | Branch | Notes |
 |--------|-------|
 | `main` | Tracks `origin/main`. |
-| `experiment/easyocr-speed` | EasyOCR throughput spike; code in `sportify-game-reconstruction/experiments/easyocr-speed/`. |
+| `experiment/easyocr` | EasyOCR jersey OCR spike; code in `sportify-game-reconstruction/experiments/easyocr/`. |
 
 ## VPS and multi-machine sync
 

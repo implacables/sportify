@@ -19,9 +19,9 @@ data/
 *.mov
 
 # Experiment inputs (images stay local; track empty dirs via .gitkeep)
-sportify-game-reconstruction/experiments/easyocr-speed/images/**
-!sportify-game-reconstruction/experiments/easyocr-speed/images/**/
-!sportify-game-reconstruction/experiments/easyocr-speed/images/**/.gitkeep
+sportify-game-reconstruction/experiments/easyocr/images/**
+!sportify-game-reconstruction/experiments/easyocr/images/**/
+!sportify-game-reconstruction/experiments/easyocr/images/**/.gitkeep
 
 # Python
 .venv/

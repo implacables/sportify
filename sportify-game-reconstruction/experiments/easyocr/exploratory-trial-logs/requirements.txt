@@ -1,4 +1,3 @@
-# EasyOCR speed experiment — install inside local .venv (see README)
 easyocr>=1.7.2
 jupyter>=1.1.0
 ipykernel>=6.29.0

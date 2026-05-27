@@ -48,7 +48,7 @@ Data and vendor baselines stay **outside** the repo — see [VPS benchmark plan]
 
 ## Git branches
 
-See **[branching-strategy.md](branching-strategy.md)**. Summary: **`main`** for the POC baseline; **`experiment/<slug>`** for spikes (e.g. `experiment/easyocr-speed`).
+See **[branching-strategy.md](branching-strategy.md)**. Summary: **`main`** for the POC baseline; **`experiment/<slug>`** for spikes (e.g. `experiment/easyocr`).
 
 ## Future thesis repos (not monorepo)
 
