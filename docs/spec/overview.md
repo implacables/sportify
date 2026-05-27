@@ -135,7 +135,7 @@ flowchart LR
 
 - **FR-T1:** The system shall accept a roster: mapping of platform user identity to jersey number for a given match.
 - **FR-T2:** The system shall accept squad size (number of players per team).
-- **FR-T3:** Reconstruction shall resolve detected players to roster identities via jersey number (exact OCR/ReID strategy is a pipeline concern).
+- **FR-T3:** Reconstruction shall resolve detected players to roster identities; association uses ReID + jersey OCR when a track is not yet mapped to a `user_id` (see pipeline spec).
 
 ### 5.3 Video upload
 
@@ -150,7 +150,7 @@ flowchart LR
 - **FR-R1:** Given video, venue data, and roster, the pipeline shall produce time-series player positions and linked user identities.
 - **FR-R2:** Output cadence shall be configurable (every frame or every *k* frames).
 - **FR-R3:** The pipeline shall report **effective FPS** (frames processed / wall-clock time) for the full job.
-- **FR-R4:** Heavy identity steps (jersey OCR, ReID) shall be **conditional** — not required on every frame when roster resolution succeeds earlier.
+- **FR-R4:** Heavy identity steps (jersey OCR, ReID) shall be **conditional** — not required on every frame when the track is already mapped to a `user_id`.
 
 ### 5.5 Job lifecycle
 

@@ -1,0 +1,6 @@
+# EasyOCR speed experiment — install inside local .venv (see README)
+easyocr>=1.7.2
+jupyter>=1.1.0
+ipykernel>=6.29.0
+Pillow>=10.4.0
+pandas>=2.2.0

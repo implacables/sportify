@@ -85,7 +85,7 @@ Evaluation: [sn-trackeval](https://github.com/SoccerNet/sn-trackeval) fork; Coda
 |--------|---------------|--------------|
 | Camera | Moving broadcast | Fixed elevated side view |
 | Calibration | Per-frame TVCalib | **Eliminated** — stored homography |
-| OCR / ReID | Every frame | **Conditional** |
+| OCR / ReID | Every frame | **Conditional** (only when track not mapped to `user_id`; run together for association) |
 | Primary bar | GS-HOTA accuracy | **Throughput / cost** |
 | Identity | Jersey + team + role | Roster → `user_id` |
 | Infrastructure | Research GPU (A100) | VPS |

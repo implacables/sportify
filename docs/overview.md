@@ -50,8 +50,9 @@ SoccerNet GSR runs six heavy modules every frame, including per-frame pitch loca
 | Pitch localization (TVCalib) | **Eliminated** | Homography computed at venue setup, not per frame |
 | Camera calibration (TVCalib) | **Eliminated** | Stored homography reused for every match at that venue |
 | Multi-object tracking | **Always run** | Temporal continuity before identity |
-| Re-identification (PRTReID) | **Conditional** | Run when jersey OCR cannot resolve identity |
-| Jersey OCR (MMOCR) | **Conditional** | Run on frames/crops where number is likely visible |
+| Identity mapping lookup | **Always run** | Per track: if already mapped to `user_id`, skip association |
+| Re-identification (PRTReID) | **Conditional** | Run with jersey OCR when track is not yet mapped to `user_id` |
+| Jersey OCR (MMOCR) | **Conditional** | Run with ReID when track is not yet mapped to `user_id` |
 | Event detection | **Out of scope** | Deferred entirely |
 
 Exact conditional triggers are pipeline design items; see [sportify-game-reconstruction/docs/spec/overview.md](../sportify-game-reconstruction/docs/spec/overview.md).
@@ -142,7 +143,7 @@ Detailed pipeline design lives in the reconstruction repo. This document stays a
 
 1. **Efficiency first (POC)** — Beat SoccerNet's ~1.1 FPS wall; mass scale is impossible otherwise.
 2. **Eliminate what context gives us** — No per-frame pitch localization or calibration when homography is known at setup.
-3. **Conditional heavy steps** — ReID and jersey OCR run when needed, not on every frame by default.
+3. **Conditional heavy steps** — ReID and jersey OCR run only for unmapped tracks, not on every frame by default.
 4. **Modular stages** — Each step has clear inputs, outputs, and failure modes; components can be swapped or evaluated independently.
 5. **VPS, not cloud** — POC runs on a rented VPS for cheap, unconstrained experimentation.
 6. **Setup vs match runtime** — Venue calibration (homography, dimensions) happens once and is reused; it is not recomputed every frame or every match.

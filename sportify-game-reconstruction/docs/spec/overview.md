@@ -36,7 +36,9 @@ The POC succeeds when reconstruction throughput and VPS cost model make **many m
 | **Venue** | A physical pitch with stored dimensions and homography |
 | **Roster** | Match-specific mapping of jersey numbers to platform user IDs, per team |
 | **Reconstruction frame** | One output sample at time *t* (every frame or every *k* frames) |
-| **Identity** | Platform `user_id` assigned after jersey resolution against the roster |
+| **Track (`player_id`)** | MOT instance id linking detections across frames |
+| **Identity mapping** | Cached association of a track to a roster `user_id` once association succeeds |
+| **Identity** | Platform `user_id` from the mapping cache or from ReID + OCR association against the roster |
 | **Field coordinates** | Meters in a pitch plane defined by venue dimensions and homography |
 | **Eliminated step** | Never run in POC when prerequisites exist (e.g. stored homography) |
 | **Conditional step** | Run only when upstream state triggers it |
@@ -51,10 +53,10 @@ The POC succeeds when reconstruction throughput and VPS cost model make **many m
 | **Pitch localization** | **Eliminated** | Never — venue has stored homography |
 | **Per-frame camera calibration** | **Eliminated** | Never — homography from venue setup |
 | **Multi-object tracking** | Always | Link detections across frames |
-| **Jersey OCR** | **Conditional** | When number likely visible; skip when track already has stable jersey from roster |
-| **ReID** | **Conditional** | When jersey OCR fails, track is new, or identity ambiguous |
+| **Identity mapping lookup** | Always (per track, per frame) | If track already mapped to `user_id`, skip association |
+| **Identity association (ReID + jersey OCR)** | **Conditional** | Only when track is **not** yet mapped to a `user_id` |
 | **Field projection** | Always | Stored homography + detection footpoint |
-| **Tracklet merge / roster bind** | Always | Lightweight post-process |
+| **Tracklet merge / roster bind** | Always | Lightweight post-process; updates mapping cache on successful association |
 
 **FR-D1:** Eliminated steps shall not appear in the default POC execution graph.  
 **FR-D2:** Conditional steps shall log when invoked and why (for efficiency analysis).  
@@ -170,17 +172,18 @@ Time series keyed by `frame_index` or `timestamp_ms`.
 
 *Implementation (YOLO, ByteTrack, etc.) is not specified in this version.*
 
-### 6.2 Identity resolution (conditional)
+### 6.2 Identity resolution
 
-- **FR-P4:** Jersey OCR runs **conditionally** — not on every frame by default.
-- **FR-P5:** ReID runs **conditionally** when OCR cannot resolve a track to a roster entry.
-- **FR-P6:** Map resolved jersey numbers to `user_id` using the roster.
-- **FR-P7:** When jersey is ambiguous or occluded, behavior shall be explicit (provisional ID, omit, or low-confidence flag)—**open: see §9**.
+- **FR-P3:** The pipeline shall maintain a per-track mapping from track id (`player_id`) to `user_id` once association succeeds.
+- **FR-P4:** After tracking, if a track is already mapped to a `user_id`, the pipeline shall **not** run ReID or jersey OCR for that track on that frame; it shall use the cached mapping.
+- **FR-P5:** When a track is **not** yet mapped to a `user_id`, the pipeline shall run **ReID and jersey OCR together** to associate the track with a roster entry (not OCR-first with ReID as a later fallback).
+- **FR-P6:** Map association results to `user_id` using the roster.
+- **FR-P7:** When association is ambiguous or fails, behavior shall be explicit (provisional ID, omit, or low-confidence flag)—**open: see §9**.
 
-Suggested conditional triggers (TBD):
+Suggested triggers to **invalidate** a cached mapping and re-run association (TBD):
 
-- OCR: new track, periodic refresh every *n* seconds, or confidence drop on existing jersey assignment
-- ReID: OCR miss after N attempts, or ambiguous duplicate jersey candidates
+- MOT track break or new `player_id` for the same physical player
+- Confidence drop or explicit operator reset
 
 ### 6.3 Coordinate projection (always)
 
@@ -228,12 +231,13 @@ output:
   dir: /data/artifacts/jobs/job_20260524_001/
 processing:
   frame_stride: 5
+  identity:
+    association:
+      mode: conditional  # only when track not mapped to user_id
   jersey_ocr:
-    mode: conditional
-    refresh_interval_sec: 10
+    run_with: association
   reid:
-    mode: conditional
-    max_ocr_attempts: 3
+    run_with: association
 ```
 
 ### 7.4 Cloud (deprecated for POC)
@@ -258,8 +262,8 @@ Previous drafts specified AWS S3, SQS, and Batch. **Not used for POC.** A future
 
 | # | Topic | Notes |
 |---|--------|-------|
-| 1 | Conditional OCR schedule | Per-track refresh vs keyframe-only |
-| 2 | ReID model choice | Lightweight vs accuracy when triggered |
+| 1 | Mapping invalidation | When to clear track→`user_id` and re-run ReID + OCR |
+| 2 | ReID model choice | Lightweight vs accuracy during association |
 | 3 | Unresolved identity policy | Provisional track ID vs omit vs `user_id: null` |
 | 4 | Field coordinate origin | e.g. center spot vs corner; document in venue schema |
 | 5 | Checkpointing | Per-step disk artifacts for resume vs single output blob |
@@ -277,7 +281,7 @@ Previous drafts specified AWS S3, SQS, and Batch. **Not used for POC.** A future
 3. Venue homography is read from venue data; pitch localization and per-frame calibration **do not run**.
 4. Job metadata includes `effective_fps` and `wall_clock_seconds`.
 5. **`effective_fps` materially exceeds 1.1** on the agreed reference match and hardware, with methodology documented.
-6. Conditional steps (OCR, ReID) are skipped on frames/tracks where identity is already stable — evidenced by `metrics.conditional_steps` counts below naive per-frame totals.
+6. ReID and OCR association are skipped on frames/tracks that already have a `user_id` mapping — evidenced by `metrics.conditional_steps` counts below naive per-frame totals.
 7. Failed runs set `status=failed` with a diagnostic message.
 
 ---

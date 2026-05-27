@@ -43,14 +43,14 @@ SoccerNet GSR runs six modules every frame. Our fixed-camera amateur context all
 | Pitch localization (TVCalib) | Always (~2.9 FPS) | **Eliminated** | Venue homography stored at setup |
 | Camera calibration (TVCalib) | Always (~7.6 FPS) | **Eliminated** | Reuse stored homography per match |
 | Multi-object tracking | Always | **Always** | Maintain track continuity |
-| Re-identification (PRTReID) | Always (~14.5 FPS with tracking) | **Conditional** | When jersey OCR cannot resolve identity |
-| Jersey OCR (MMOCR) | Always (~3.8 FPS) | **Conditional** | When number likely visible / identity not yet stable |
+| Re-identification (PRTReID) | Always (~14.5 FPS with tracking) | **Conditional** | When track is not yet mapped to a `user_id` |
+| Jersey OCR (MMOCR) | Always (~3.8 FPS) | **Conditional** | When track is not yet mapped to a `user_id` (runs with ReID for association) |
 | Tracklet post-processing | Always | **Always** | Majority vote, roster merge — lightweight |
 | Event detection | N/A in GSR paper scope | **Out of scope** | Deferred product-wide |
 
 **Eliminated** steps are never run in the POC when venue homography exists.
 
-**Conditional** steps run only when upstream state requires them (e.g. unresolved jersey, new track). Exact triggers are open design items in [spec/overview.md](spec/overview.md).
+**Conditional** steps run only when a track is not yet mapped to a `user_id` (cached association). Exact invalidation and re-association rules are open design items in [spec/overview.md](spec/overview.md).
 
 ---
 
@@ -95,7 +95,7 @@ Emitted **every frame** or **every k frames** (configurable):
 
 | Field | Description |
 |-------|-------------|
-| `user_id` | Platform identity from roster (via jersey resolution) |
+| `user_id` | Platform identity from roster (via cached track mapping or ReID + OCR association) |
 | `x`, `y` | Position on the pitch in venue field coordinates (meters) |
 | `z` | Optional height; omit or zero if not estimated in POC |
 
@@ -128,8 +128,8 @@ flowchart TB
   end
 
   subgraph conditional [Conditional]
-    JER[Jersey OCR]
-    REID[ReID fallback]
+    MAP{Track mapped to user_id?}
+    ASSOC[ReID + jersey OCR association]
   end
 
   subgraph output [Output]
@@ -140,14 +140,12 @@ flowchart TB
   DET --> TRK
   TRK --> PROJ
   VEN --> PROJ
-  TRK --> JER
-  JER -->|unresolved| REID
-  ROST --> JER
-  ROST --> REID
-  TRK --> ART
+  TRK --> MAP
+  MAP -->|yes| ART
+  MAP -->|no| ASSOC
+  ASSOC --> ROST
+  ROST --> MAP
   PROJ --> ART
-  JER --> ART
-  REID --> ART
 ```
 
 Exact step boundaries, models, and conditional triggers are **not finalized**; see [spec/overview.md](spec/overview.md).
@@ -205,7 +203,7 @@ sequenceDiagram
 
 - Batch reconstruction from pretaped side-view video
 - Use of precomputed venue homography (**SoccerNet calibration eliminated**)
-- Identity association via conditional jersey OCR + conditional ReID + roster table
+- Identity association via per-track mapping cache; ReID + jersey OCR only when a track is not yet mapped, then roster lookup
 - **Throughput measurement** vs SoccerNet ~1.1 FPS baseline
 - VPS-friendly artifact layout
 
@@ -235,7 +233,7 @@ sequenceDiagram
 
 1. **Beat ~1.1 FPS** — Mass scale is impossible at SoccerNet throughput; efficiency is the POC thesis.
 2. **Eliminate redundant compute** — No per-frame calibration when homography is known.
-3. **Conditional expensive steps** — OCR and ReID are not default per-frame paths.
+3. **Conditional expensive steps** — ReID and OCR run only for tracks without a cached `user_id` mapping, not on every frame.
 4. **One clear artifact contract** — Downstream systems depend on documented JSON, not internal step files.
 5. **Swappable components** — Detection, tracking, OCR, etc. are replaceable if inputs/outputs stay stable.
 6. **Fail visibly** — Jobs report failure with enough context to retry or debug.

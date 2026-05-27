@@ -18,6 +18,10 @@ data/
 *.avi
 *.mov
 
+# Experiment inputs (keep directory via .gitkeep)
+sportify-game-reconstruction/experiments/easyocr-speed/images/**/*
+!sportify-game-reconstruction/experiments/easyocr-speed/images/**/.gitkeep
+
 # Python
 .venv/
 venv/
