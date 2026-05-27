@@ -27,10 +27,14 @@ Supported extensions: `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp`. Base files are o
 
 ## Run
 
+**Simple benchmark (recommended):**
+
 ```bash
 source .venv/bin/activate
-jupyter notebook easyocr_speed.ipynb
+jupyter notebook easyocr_benchmark.ipynb
 ```
+
+**Detailed / exploratory:** `easyocr_speed.ipynb`
 
 Kernel: **Sportify EasyOCR speed**.
 
