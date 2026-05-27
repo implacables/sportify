@@ -21,7 +21,7 @@ First EasyOCR run downloads recognition models into `~/.EasyOCR/` (several hundr
 | Folder | Count | Content |
 |--------|-------|---------|
 | `images/base/` | **10** | Same scene type as your pipeline frames — **no** visible jersey number |
-| `images/with_number/` | **≥1** | Shots with a readable number; one is chosen at random when a trial injects a number |
+| `images/with_number/` | **≥1** | Shots with jersey **5** (set `EXPECTED_JERSEY` in the notebook); one is chosen at random per injected trial |
 
 Supported extensions: `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp`. Base files are ordered by **sorted filename** (slot 0 … 9). Each trial either keeps all 10 base frames or **replaces one random slot** with a randomly chosen image from `with_number/`.
 
