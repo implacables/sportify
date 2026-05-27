@@ -27,30 +27,36 @@ Supported extensions: `.png`, `.jpg`, `.jpeg`, `.webp`, `.bmp`. Base files are o
 
 ## Run
 
-**Simple benchmark (recommended):**
+**Full benchmark (recommended):**
 
 ```bash
 source .venv/bin/activate
-jupyter notebook easyocr_benchmark.ipynb
+jupyter notebook easyocr_bench.ipynb
 ```
 
-**Detailed / exploratory:** `easyocr_speed.ipynb`
+Speed, Type I/II, jersey label checks, wrong-file lists, and **in-notebook** OCR box overlays on failures (nothing saved to disk).
+
+**Quick text-only:** `easyocr_benchmark.ipynb`  
+**Legacy / exploratory:** `easyocr_speed.ipynb`
 
 Kernel: **Sportify EasyOCR speed**.
 
-Notebook knobs:
+Notebook knobs (`easyocr_bench.ipynb`):
 
-- `P_HAS_NUMBER` — probability a trial includes the numbered frame (default `0.3`, i.e. often no OCR-worthy frame)
-- `N_TRIALS` — how many random sequences to run (increase for stabler means)
-- `RANDOM_SEED` — set for reproducible placement
-- `IMAGE_SCALE` — upscale screenshots before OCR (default `4`; jersey digits are often unreadable at 1×)
-- `OCR_KWARGS` — passed to `readtext` (`allowlist`, `mag_ratio`, contrast tuning)
+- `P_HAS_NUMBER` — probability a trial includes the numbered frame (default `0.3`)
+- `N_TRIALS` — random sequences to run (increase for stabler means)
+- `RANDOM_SEED` — reproducible placement
+- `EXPECTED_JERSEY` — label ground truth for `with_number/` (default `"5"`)
+- `IMAGE_SCALE` — upscale before OCR (default `4`)
+- `OCR_KWARGS` — `readtext` options (`allowlist`, `mag_ratio`, contrast)
+- `MAX_DISPLAY` — cap on failure images shown with boxes (default `30`)
 
-Before the benchmark loop, the notebook runs a **preflight** on every `with_number/` image. If that reports `0/N`, raise `IMAGE_SCALE` or use tighter crops on the jersey.
+Preflight scans every `with_number/` image before trials. If all show `(none)`, raise `IMAGE_SCALE` or crop tighter on the jersey.
 
 ## Outputs
 
-Per-trial and aggregate timing, effective batch FPS (10 frames), and OCR hit rate when the number was injected.
+- Plain-text summary: speed, Type I/II, label errors, wrong-file lists
+- Annotated failure images displayed inline (PIL boxes on the upscaled frame OCR used)
 
 ## Server + local
 
