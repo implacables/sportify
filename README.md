@@ -36,4 +36,4 @@ Development moved here from:
 
 ## Data (not in git)
 
-Set `SPORTIFY_DATA_ROOT` (default `~/data/sportify`) for SoccerNet-GS, vendor baselines, and match video. See [benchmarks/README.md](benchmarks/README.md).
+Set **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`) for SoccerNet-GS (`$SPORTIFY_DATA_ROOT/SoccerNetGS/`), vendor baselines, and match video. Download and layout: [docs/data-layout.md](docs/data-layout.md). Benchmarks: [benchmarks/README.md](benchmarks/README.md).

@@ -56,4 +56,6 @@ Official GSR uses **MMOCR** every frame (~1.1 FPS full pipeline). This bench mea
 
 ## Setup
 
-Download SoccerNet-GS via [benchmarks/soccernet-gsr/setup-bench.sh](../../../../benchmarks/soccernet-gsr/setup-bench.sh).
+Requires **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`). SoccerNet files: `$SPORTIFY_DATA_ROOT/SoccerNetGS/`. See [docs/data-layout.md](../../../../docs/data-layout.md).
+
+Download valid split: [benchmarks/soccernet-gsr/setup-bench.sh](../../../../benchmarks/soccernet-gsr/setup-bench.sh).

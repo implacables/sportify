@@ -38,7 +38,7 @@ benchmarks/
 
 ## Data paths
 
-Large assets stay outside git. Set `SPORTIFY_DATA_ROOT` (default: `~/data/sportify`) for datasets, vendor clones, and match video. See [config/reference.yaml](config/reference.yaml).
+Large assets stay outside git. Set **`SPORTIFY_DATA_ROOT`** (default: `~/data/sportify`); SoccerNet-GS is at `$SPORTIFY_DATA_ROOT/SoccerNetGS/`. Download: `benchmarks/soccernet-gsr/setup-bench.sh`. Full layout: [docs/data-layout.md](../docs/data-layout.md). Path templates: [config/reference.yaml](config/reference.yaml).
 
 **VPS execution:** [docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md](../docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md) — hand this to the VPS agent.
 

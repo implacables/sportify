@@ -44,7 +44,7 @@ export SPORTIFY_REPO=~/sportify
 | `~/sportify/` | Yes | Docs, benchmarks, pipeline |
 | `~/data/sportify/` | No | SoccerNet-GS, vendor/sn-gamestate, weights |
 
-Data and vendor baselines stay **outside** the repo — see [VPS benchmark plan](plans/2026-05-24-vps-soccernet-baseline-benchmark.md).
+Data and vendor baselines stay **outside** the repo. SoccerNet-GS lives at `$SPORTIFY_DATA_ROOT/SoccerNetGS/` — see **[data-layout.md](data-layout.md)** for download steps and directory tree. VPS details: [VPS benchmark plan](plans/2026-05-24-vps-soccernet-baseline-benchmark.md).
 
 ## Git branches
 
