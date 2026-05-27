@@ -43,3 +43,39 @@ Notebook knobs:
 ## Outputs
 
 Per-trial and aggregate timing, effective batch FPS (10 frames), and OCR hit rate when the number was injected.
+
+## Server + local
+
+Work on branch **`experiment/easyocr-speed`** on both machines (experiment code only; images stay untracked).
+
+**Server (first time on branch):**
+
+```bash
+cd ~/sportify   # or your clone path
+git fetch origin
+git checkout experiment/easyocr-speed   # or: git checkout -b experiment/easyocr-speed origin/experiment/easyocr-speed
+cd sportify-game-reconstruction/experiments/easyocr-speed
+./setup.sh
+```
+
+**Local:**
+
+```bash
+cd ~/Documents/sportify
+git checkout experiment/easyocr-speed
+cd sportify-game-reconstruction/experiments/easyocr-speed
+source .venv/bin/activate
+```
+
+**Sync code** (after committing on either side):
+
+```bash
+git push -u origin experiment/easyocr-speed   # first push from server or local
+git pull                                       # on the other machine
+```
+
+Copy `images/base/` and `images/with_number/` between machines with `rsync` or scp — they are not in git. Example:
+
+```bash
+rsync -av sportify-game-reconstruction/experiments/easyocr-speed/images/ user@server:~/sportify/sportify-game-reconstruction/experiments/easyocr-speed/images/
+```

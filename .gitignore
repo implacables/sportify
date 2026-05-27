@@ -18,8 +18,9 @@ data/
 *.avi
 *.mov
 
-# Experiment inputs (keep directory via .gitkeep)
-sportify-game-reconstruction/experiments/easyocr-speed/images/**/*
+# Experiment inputs (images stay local; track empty dirs via .gitkeep)
+sportify-game-reconstruction/experiments/easyocr-speed/images/**
+!sportify-game-reconstruction/experiments/easyocr-speed/images/**/
 !sportify-game-reconstruction/experiments/easyocr-speed/images/**/.gitkeep
 
 # Python

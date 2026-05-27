@@ -12,6 +12,18 @@ Reproduce the official baseline and (optionally) score GS-HOTA on SoccerNet-GS c
 
 ```bash
 export SPORTIFY_DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
+
+# Automated setup (vendor clone, venv, dataset download, config paths)
+./benchmarks/soccernet-gsr/setup-bench.sh
+
+# GPUs with <= 8 GB VRAM (e.g. RTX 3060 Laptop):
+./benchmarks/soccernet-gsr/setup-bench.sh --low-vram
+```
+
+Manual steps (if you prefer):
+
+```bash
+export SPORTIFY_DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
 mkdir -p "$SPORTIFY_DATA_ROOT/vendor"
 
 # Clone official baseline (GPL-3.0 — keep in vendor/, not vendored into Sportify source)
@@ -24,10 +36,11 @@ uv run mim install mmcv==2.0.1
 
 Edit `sn_gamestate/configs/soccernet.yaml`:
 
-- `data_dir`: absolute path to `$SPORTIFY_DATA_ROOT/SoccerNetGS`
-- Machine / batch_size for your GPU
+- `data_dir`: absolute path to `$SPORTIFY_DATA_ROOT` (dataset lives at `$SPORTIFY_DATA_ROOT/SoccerNetGS`)
+- `model_dir`: `$SPORTIFY_DATA_ROOT/pretrained_models`
+- Reduce `modules.*.batch_size` on low-VRAM GPUs
 
-Dataset: auto-download on first `tracklab` run, or see [investigation.md](investigation.md).
+Dataset: downloaded by `setup-bench.sh`, or auto-download on first `tracklab` run. See [investigation.md](investigation.md).
 
 ## Run
 

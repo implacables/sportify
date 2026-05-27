@@ -46,6 +46,10 @@ export SPORTIFY_REPO=~/sportify
 
 Data and vendor baselines stay **outside** the repo — see [VPS benchmark plan](plans/2026-05-24-vps-soccernet-baseline-benchmark.md).
 
+## Git branches
+
+See **[branching-strategy.md](branching-strategy.md)**. Summary: **`main`** for the POC baseline; **`experiment/<slug>`** for spikes (e.g. `experiment/easyocr-speed`).
+
 ## Future thesis repos (not monorepo)
 
 Scoring and matchmaking → separate repos when built (`sportify-scoring`, etc.); consume reconstruction JSON artifacts only.

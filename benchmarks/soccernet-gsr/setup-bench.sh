@@ -114,6 +114,7 @@ else
   (
     cd "${SN_GS}"
     export SPORTIFY_DATA_ROOT="${DATA_ROOT}"
+    export SPLIT="${SPLIT}"
     uv run python <<'PY'
 import os
 from SoccerNet.Downloader import SoccerNetDownloader
