@@ -1,6 +1,7 @@
 # Shared benchmark reference values and path templates.
 # Copy or override locally; do not commit machine-specific absolute paths.
 
+# Unset SPORTIFY_DATA_ROOT: /workspace in cloud workspaces, else ~/data/sportify (see scripts/sportify-env.sh)
 data_root: "${SPORTIFY_DATA_ROOT:-~/data/sportify}"
 
 paths:

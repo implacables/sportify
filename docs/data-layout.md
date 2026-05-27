@@ -10,7 +10,7 @@ Large assets (SoccerNet-GS, vendor baselines, match video, model weights) stay *
 | Item | Value |
 |------|--------|
 | Variable | `SPORTIFY_DATA_ROOT` |
-| Default if unset | `~/data/sportify` (expanded with `expanduser`) |
+| Default if unset | `/workspace` when that directory exists (cloud workspaces), else `~/data/sportify` |
 | In git? | **No** — local/VPS only |
 | Repo clone | Separate path, e.g. `~/sportify` or `~/Documents/sportify` |
 
@@ -22,7 +22,10 @@ source ~/sportify/scripts/sportify-env.sh
 sportify-env   # print resolved paths
 
 # Option 2 — manual
+# Laptop / VPS:
 export SPORTIFY_DATA_ROOT="$HOME/data/sportify"
+# Cloud workspace (or rely on default when /workspace exists):
+# export SPORTIFY_DATA_ROOT="/workspace"
 mkdir -p "$SPORTIFY_DATA_ROOT"
 ```
 
@@ -30,7 +33,9 @@ Per-machine overrides (custom data root, `SOCCERNET_PWD`): copy [scripts/sportif
 
 **VPS example:** repo at `~/sportify`, data at `~/data/sportify`.
 
-**Jupyter as root:** if you do not set the variable, tools default to `/root/data/sportify`. Either export `SPORTIFY_DATA_ROOT` before starting Jupyter or use the same path under `/root`.
+**Cloud / Cursor workspace:** if `/workspace` exists and `SPORTIFY_DATA_ROOT` is unset, data goes under `/workspace/` (e.g. `/workspace/SoccerNetGS`). Source `scripts/sportify-env.sh` before setup or Jupyter.
+
+**Jupyter as root (no `/workspace`):** defaults to `~/data/sportify` → often `/root/data/sportify`. Export `SPORTIFY_DATA_ROOT` explicitly if your data lives elsewhere.
 
 ## Where SoccerNet-GS lives
 
@@ -87,7 +92,14 @@ Some tasks download labels without video; **gamestate-2024** includes frame JPEG
 Install [uv](https://docs.astral.sh/uv/), then from the **sportify repo root**:
 
 ```bash
-export SPORTIFY_DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
+source scripts/sportify-env.sh   # sets SPORTIFY_DATA_ROOT (/workspace or ~/data/sportify)
+benchmarks/soccernet-gsr/setup-bench.sh
+```
+
+Or explicitly:
+
+```bash
+export SPORTIFY_DATA_ROOT="/workspace"
 benchmarks/soccernet-gsr/setup-bench.sh
 ```
 

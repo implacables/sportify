@@ -17,9 +17,10 @@ fi
 _SPORTIFY_ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SPORTIFY_REPO="$(cd "${_SPORTIFY_ENV_DIR}/.." && pwd)"
 
-# Large assets live outside the repo (SoccerNet-GS, vendor baselines, match video).
-# Override before sourcing, or in scripts/sportify-env.local.sh
-: "${SPORTIFY_DATA_ROOT:=${HOME}/data/sportify}"
+# shellcheck source=sportify-default-data-root.sh
+source "${_SPORTIFY_ENV_DIR}/sportify-default-data-root.sh"
+# Large assets live outside the repo. Override before sourcing, or in sportify-env.local.sh
+sportify_ensure_data_root
 export SPORTIFY_DATA_ROOT="$(cd "${SPORTIFY_DATA_ROOT}" 2>/dev/null && pwd || echo "${SPORTIFY_DATA_ROOT}")"
 
 # SoccerNet Game State (task gamestate-2024)

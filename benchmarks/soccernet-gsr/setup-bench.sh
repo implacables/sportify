@@ -5,7 +5,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
+# shellcheck source=../../scripts/sportify-default-data-root.sh
+source "${REPO_ROOT}/scripts/sportify-default-data-root.sh"
+sportify_ensure_data_root
+DATA_ROOT="${SPORTIFY_DATA_ROOT}"
 SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
 SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"
 SPLIT="${SPLIT:-valid}"  # valid | train | test — default valid for benchmarks
@@ -15,7 +18,7 @@ usage() {
 Usage: $0 [--data-root PATH] [--split valid|train] [--skip-download] [--low-vram]
 
 Environment:
-  SPORTIFY_DATA_ROOT   Data directory (default: ~/data/sportify)
+  SPORTIFY_DATA_ROOT   Data directory (default: /workspace if present, else ~/data/sportify)
 
 Options:
   --data-root PATH     Override SPORTIFY_DATA_ROOT

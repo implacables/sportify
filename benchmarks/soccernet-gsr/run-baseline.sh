@@ -4,7 +4,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
+# shellcheck source=../../scripts/sportify-default-data-root.sh
+source "${REPO_ROOT}/scripts/sportify-default-data-root.sh"
+sportify_ensure_data_root
+DATA_ROOT="${SPORTIFY_DATA_ROOT}"
 SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
 MANIFEST="${SCRIPT_DIR}/manifests/valid-quick.yaml"
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"

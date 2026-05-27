@@ -13,7 +13,8 @@ Jersey number OCR benchmark on **SoccerNet Game State** validation clips: crop G
 You need the **SoccerNet-GS valid split** on disk (not in git). Set one env var:
 
 ```bash
-export SPORTIFY_DATA_ROOT="$HOME/data/sportify"   # pick a path with enough disk
+export SPORTIFY_DATA_ROOT="/workspace"          # cloud workspace (default when /workspace exists)
+# export SPORTIFY_DATA_ROOT="$HOME/data/sportify"  # laptop / VPS
 ```
 
 Dataset path (fixed relative to that root):
