@@ -1,0 +1,9 @@
+# Copy to sportify-env.local.sh and edit (sportify-env.local.sh is gitignored).
+#
+#   cp scripts/sportify-env.local.sh.example scripts/sportify-env.local.sh
+
+# Machine-specific data root (VPS, laptop, etc.)
+# export SPORTIFY_DATA_ROOT="/mnt/data/sportify"
+
+# Password from SoccerNet NDA email (if download asks for it)
+# export SOCCERNET_PWD="your-password-here"

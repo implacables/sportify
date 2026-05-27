@@ -39,6 +39,7 @@ build/
 .env
 .env.*
 !.env.example
+scripts/sportify-env.local.sh
 
 # IDE / OS
 .idea/

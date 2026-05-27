@@ -17,10 +17,16 @@ Large assets (SoccerNet-GS, vendor baselines, match video, model weights) stay *
 Set it in your shell profile on every machine that runs benchmarks or notebooks:
 
 ```bash
-# ~/.bashrc or ~/.profile (adjust path per machine)
+# Option 1 — repo helper (recommended)
+source ~/sportify/scripts/sportify-env.sh
+sportify-env   # print resolved paths
+
+# Option 2 — manual
 export SPORTIFY_DATA_ROOT="$HOME/data/sportify"
 mkdir -p "$SPORTIFY_DATA_ROOT"
 ```
+
+Per-machine overrides (custom data root, `SOCCERNET_PWD`): copy [scripts/sportify-env.local.sh.example](../scripts/sportify-env.local.sh.example) to `scripts/sportify-env.local.sh` (gitignored).
 
 **VPS example:** repo at `~/sportify`, data at `~/data/sportify`.
 
