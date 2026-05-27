@@ -148,8 +148,19 @@ print("done")
 PY
 
 mkdir -p "$SPORTIFY_DATA_ROOT/SoccerNetGS/valid"
-unzip -o "$SPORTIFY_DATA_ROOT/SoccerNetGS/gamestate-2024/valid.zip" \
-  -d "$SPORTIFY_DATA_ROOT/SoccerNetGS/valid"
+python3 <<'PY'
+import os
+import zipfile
+from pathlib import Path
+
+root = Path(os.environ["SPORTIFY_DATA_ROOT"]) / "SoccerNetGS"
+zip_path = root / "gamestate-2024/valid.zip"
+dest = root / "valid"
+dest.mkdir(parents=True, exist_ok=True)
+with zipfile.ZipFile(zip_path) as zf:
+    zf.extractall(dest)
+print(f"extracted -> {dest}")
+PY
 ```
 
 ### Method C — TrackLab auto-download
@@ -168,9 +179,16 @@ Still requires the same `data_dir` / `SoccerNetGS` layout. If a partial download
 
 ```bash
 mkdir -p "$SPORTIFY_DATA_ROOT/SoccerNetGS/valid"
-unzip -o "$SPORTIFY_DATA_ROOT/SoccerNetGS/gamestate-2024/valid.zip" \
-  -d "$SPORTIFY_DATA_ROOT/SoccerNetGS/valid"
+# unzip if available; else Python (RunPod often has no unzip):
+if command -v unzip >/dev/null; then
+  unzip -o "$SPORTIFY_DATA_ROOT/SoccerNetGS/gamestate-2024/valid.zip" \
+    -d "$SPORTIFY_DATA_ROOT/SoccerNetGS/valid"
+else
+  python3 -c "import zipfile; z=zipfile.ZipFile('$SPORTIFY_DATA_ROOT/SoccerNetGS/gamestate-2024/valid.zip'); z.extractall('$SPORTIFY_DATA_ROOT/SoccerNetGS/valid')"
+fi
 ```
+
+`setup-bench.sh` uses the same Python fallback automatically when `unzip` is missing.
 
 ## Verify
 

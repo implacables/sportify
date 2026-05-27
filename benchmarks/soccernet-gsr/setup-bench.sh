@@ -146,7 +146,23 @@ PY
   if [[ -f "${ZIP}" ]]; then
     echo "==> Extracting ${ZIP} -> ${DEST}"
     mkdir -p "${DEST}"
-    unzip -o "${ZIP}" -d "${DEST}"
+    if command -v unzip >/dev/null 2>&1; then
+      unzip -o -q "${ZIP}" -d "${DEST}"
+    else
+      echo "    (unzip not found — using Python zipfile)"
+      _ZIP="${ZIP}" _DEST="${DEST}" python3 <<'PY'
+import os
+import zipfile
+from pathlib import Path
+
+zip_path = Path(os.environ["_ZIP"])
+dest = Path(os.environ["_DEST"])
+dest.mkdir(parents=True, exist_ok=True)
+with zipfile.ZipFile(zip_path) as zf:
+    zf.extractall(dest)
+print(f"extracted {len(zf.namelist())} entries -> {dest}")
+PY
+    fi
   else
     echo "warning: zip not found at ${ZIP} — dataset may already be extracted or download failed"
   fi
