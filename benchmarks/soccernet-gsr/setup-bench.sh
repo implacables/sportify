@@ -74,6 +74,11 @@ echo "==> Verifying imports..."
 )
 
 echo "==> Patching ${SOCNET_YAML} paths..."
+if $LOW_VRAM; then
+  LOW_VRAM_PY=True
+else
+  LOW_VRAM_PY=False
+fi
 python3 - <<PY
 from pathlib import Path
 
@@ -92,7 +97,7 @@ for old, new in replacements.items():
     else:
         print(f"warning: pattern not found: {old}")
 
-if ${LOW_VRAM}:
+if ${LOW_VRAM_PY}:
     low_vram = {
         "bbox_detector: {batch_size: 8}": "bbox_detector: {batch_size: 2}",
         "reid: {batch_size: 64}": "reid: {batch_size: 16}",
