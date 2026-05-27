@@ -39,6 +39,10 @@ Notebook knobs:
 - `P_HAS_NUMBER` — probability a trial includes the numbered frame (default `0.3`, i.e. often no OCR-worthy frame)
 - `N_TRIALS` — how many random sequences to run (increase for stabler means)
 - `RANDOM_SEED` — set for reproducible placement
+- `IMAGE_SCALE` — upscale screenshots before OCR (default `4`; jersey digits are often unreadable at 1×)
+- `OCR_KWARGS` — passed to `readtext` (`allowlist`, `mag_ratio`, contrast tuning)
+
+Before the benchmark loop, the notebook runs a **preflight** on every `with_number/` image. If that reports `0/N`, raise `IMAGE_SCALE` or use tighter crops on the jersey.
 
 ## Outputs
 
