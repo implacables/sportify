@@ -14,6 +14,7 @@ benchmarks/
 ├── config/reference.yaml       # Shared constants (baseline FPS, hardware notes)
 ├── soccernet-gsr/              # Official SoccerNet GSR baseline + GS-HOTA
 │   ├── investigation.md        # Task, dataset, metric, baseline summary
+│   ├── setup-bench.sh          # One-time env setup (vendor + dataset)
 │   ├── manifests/              # Clip lists for smoke / full eval
 │   └── run-baseline.sh         # Wrapper around sn-gamestate / TrackLab
 ├── throughput/                 # Sportify pipeline efficiency benchmarks

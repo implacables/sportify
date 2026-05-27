@@ -7,8 +7,8 @@ split: valid
 clips:
   - id: SNGS-021
     notes: Default single-clip demo in upstream README
-  - id: SNGS-013
-  - id: SNGS-175
+  - id: SNGS-022
+  - id: SNGS-023
 
 # Upstream runs one sequence by default; extend run-baseline.sh to iterate this list.
 frame_range: all  # 30s clips @ broadcast FPS
