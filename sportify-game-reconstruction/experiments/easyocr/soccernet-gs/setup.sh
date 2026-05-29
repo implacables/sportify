@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")"
-if ! command -v uv >/dev/null 2>&1; then
-  echo "uv is required: https://docs.astral.sh/uv/" >&2
-  exit 1
-fi
+_REPO_ROOT="$(cd ../../../.. && pwd)"
+# shellcheck source=../../../../scripts/sportify-check-requirements.sh
+source "${_REPO_ROOT}/scripts/sportify-check-requirements.sh"
+sportify_check_requirements easyocr || exit 1
 uv venv --python 3.11
 # shellcheck disable=SC1091
 source .venv/bin/activate

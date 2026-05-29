@@ -1,5 +1,7 @@
 # EasyOCR experiments
 
+Each experiment’s `setup.sh` checks OS (Linux or macOS), RAM (≥ 8 GB), disk (≥ 2 GB in the experiment dir), `git`, `uv`, and `python3` before creating the venv.
+
 Jersey number OCR evaluation for game reconstruction (conditional trials, label ground truth **5**).
 
 **Shared images:** [`images/`](images/) (`base/` × 10, `with_number/` ≥ 1). Each child folder uses `../images/`.

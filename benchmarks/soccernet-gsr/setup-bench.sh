@@ -49,10 +49,13 @@ DATA_ROOT="${SPORTIFY_DATA_ROOT}"
 SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
 SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"
 
-if ! command -v uv >/dev/null 2>&1; then
-  echo "error: uv not found. Install: curl -LsSf https://astral.sh/uv/install.sh | sh" >&2
-  exit 1
+# shellcheck source=../../scripts/sportify-check-requirements.sh
+source "${REPO_ROOT}/scripts/sportify-check-requirements.sh"
+_req_skip=()
+if $SKIP_DOWNLOAD; then
+  _req_skip=(--skip-download)
 fi
+sportify_check_requirements gsr-setup --data-root "${DATA_ROOT}" "${_req_skip[@]}" || exit 1
 
 echo "==> Data root: ${DATA_ROOT}"
 mkdir -p "${DATA_ROOT}/vendor" "${DATA_ROOT}/SoccerNetGS" "${DATA_ROOT}/pretrained_models"

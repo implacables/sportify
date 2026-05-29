@@ -10,8 +10,6 @@ sportify_ensure_data_root
 DATA_ROOT="${SPORTIFY_DATA_ROOT}"
 SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
 MANIFEST="${SCRIPT_DIR}/manifests/valid-quick.yaml"
-TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
-OUT_DIR="${REPO_ROOT}/benchmarks/results/soccernet-gsr/${TIMESTAMP}"
 
 usage() {
   echo "Usage: $0 [--manifest PATH] [--dry-run]"
@@ -28,6 +26,15 @@ while [[ $# -gt 0 ]]; do
     *) echo "Unknown option: $1"; usage ;;
   esac
 done
+
+if ! $DRY_RUN; then
+  # shellcheck source=../../scripts/sportify-check-requirements.sh
+  source "${REPO_ROOT}/scripts/sportify-check-requirements.sh"
+  sportify_check_requirements gsr-run --data-root "${DATA_ROOT}" || exit 1
+fi
+
+TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+OUT_DIR="${REPO_ROOT}/benchmarks/results/soccernet-gsr/${TIMESTAMP}"
 
 if [[ ! -d "$SN_GS" ]]; then
   echo "error: sn-gamestate not found at ${SN_GS}" >&2

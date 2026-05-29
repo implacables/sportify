@@ -4,9 +4,18 @@ Reproduce the official baseline and (optionally) score GS-HOTA on SoccerNet-GS c
 
 ## Prerequisites
 
+- **OS:** Linux + NVIDIA CUDA (macOS is rejected by `setup-bench.sh` / `run-baseline.sh` checks)
 - Python 3.9, [uv](https://docs.astral.sh/uv/) (recommended by upstream)
-- GPU with sufficient VRAM for YOLO + TVCalib + MMOCR (A100-class for paper parity; smaller GPUs need batch-size tuning)
-- Disk: dataset ~several GB; model weights downloaded on first run
+- GPU with sufficient VRAM for YOLO + TVCalib + MMOCR (≥ 8 GB; `--low-vram` for ≤ 8 GB cards; 24 GB recommended)
+- RAM: ≥ 16 GB available
+- Disk: ≥ 50 GB free at `SPORTIFY_DATA_ROOT` (≥ 15 GB if `--skip-download`)
+
+`setup-bench.sh` and `run-baseline.sh` run these checks before clone/install/run. To inspect manually:
+
+```bash
+source scripts/sportify-check-requirements.sh
+sportify_check_requirements gsr-setup --data-root "${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
+```
 
 ## One-time setup
 
