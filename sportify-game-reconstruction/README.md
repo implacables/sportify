@@ -12,7 +12,7 @@ Turns pretaped amateur match video + venue homography + roster into time-indexed
 | [docs/spec/overview.md](docs/spec/overview.md) | Pipeline specification |
 | [docs/investigations/ball-tracking.md](docs/investigations/ball-tracking.md) | Ball tracking investigation (not POC scope) |
 
-Product context: [../docs/overview.md](../docs/overview.md) · Benchmarks: [../benchmarks/README.md](../benchmarks/README.md)
+Product context: [../docs/overview.md](../docs/overview.md) · Benchmarks: [benchmarks/README.md](benchmarks/README.md)
 
 ## Code
 

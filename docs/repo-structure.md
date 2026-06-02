@@ -19,8 +19,10 @@ sportify/                          # github.com/<org>/sportify
 ├── AGENTS.md
 ├── README.md
 ├── docs/
-├── benchmarks/
+├── scripts/
 └── sportify-game-reconstruction/
+    ├── benchmarks/
+    ├── experiments/
     ├── docs/
     └── src/                       # future pipeline code
 ```

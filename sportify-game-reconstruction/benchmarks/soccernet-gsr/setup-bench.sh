@@ -4,8 +4,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-# shellcheck source=../../scripts/sportify-default-data-root.sh
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+# shellcheck source=../../../scripts/sportify-default-data-root.sh
 source "${REPO_ROOT}/scripts/sportify-default-data-root.sh"
 SPLIT="${SPLIT:-valid}"  # valid | train | test — default valid for benchmarks
 
@@ -49,7 +49,7 @@ DATA_ROOT="${SPORTIFY_DATA_ROOT}"
 SN_GS="${DATA_ROOT}/vendor/sn-gamestate"
 SOCNET_YAML="${SN_GS}/sn_gamestate/configs/soccernet.yaml"
 
-# shellcheck source=../../scripts/sportify-check-requirements.sh
+# shellcheck source=../../../scripts/sportify-check-requirements.sh
 source "${REPO_ROOT}/scripts/sportify-check-requirements.sh"
 _req_skip=()
 if $SKIP_DOWNLOAD; then

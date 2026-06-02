@@ -11,11 +11,11 @@
 |---|---|
 | `sportify-game-reconstruction/experiments/easyocr/synthetic/Makefile` | Create |
 | `sportify-game-reconstruction/experiments/easyocr/soccernet-gs/Makefile` | Create |
-| `benchmarks/soccernet-gsr/Makefile` | Create |
+| `sportify-game-reconstruction/benchmarks/soccernet-gsr/Makefile` | Create |
 | `sportify-game-reconstruction/experiments/easyocr/synthetic/setup.sh` | Delete |
 | `sportify-game-reconstruction/experiments/easyocr/soccernet-gs/setup.sh` | Delete |
-| `benchmarks/soccernet-gsr/setup-bench.sh` | Keep — private implementation called by Makefile |
-| `benchmarks/soccernet-gsr/run-baseline.sh` | Keep — private implementation called by Makefile |
+| `sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh` | Keep — private implementation called by Makefile |
+| `sportify-game-reconstruction/benchmarks/soccernet-gsr/run-baseline.sh` | Keep — private implementation called by Makefile |
 | `scripts/sportify-*.sh` | Keep — sourced libraries, not user-facing |
 
 The experiment `setup.sh` files (~10 lines each) are inlined directly into Makefile recipes. The benchmark scripts (150–200 lines, Python heredocs, config patching, zip extraction) are kept as shell but demoted to internal implementation — the Makefile becomes the documented interface. The benchmark scripts are not renamed or moved; they are simply no longer referenced in docs.
@@ -59,7 +59,7 @@ Prints:
 
 ## Benchmark Makefile
 
-Located at `benchmarks/soccernet-gsr/Makefile`. Wraps `setup-bench.sh` and `run-baseline.sh`.
+Located at `sportify-game-reconstruction/benchmarks/soccernet-gsr/Makefile`. Wraps `setup-bench.sh` and `run-baseline.sh`.
 
 ### Targets
 

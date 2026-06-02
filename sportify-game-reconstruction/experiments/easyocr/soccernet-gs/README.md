@@ -26,7 +26,7 @@ $SPORTIFY_DATA_ROOT/SoccerNetGS/valid/SNGS-021/Labels-GameState.json
 Download and extract from the **repo root**:
 
 ```bash
-benchmarks/soccernet-gsr/setup-bench.sh
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
 ```
 
 See [docs/data-layout.md](../../../../docs/data-layout.md) for the full tree, manual unzip, and VPS notes.
@@ -40,6 +40,6 @@ cd sportify-game-reconstruction/experiments/easyocr/soccernet-gs
 jupyter notebook easyocr_soccernet_gs.ipynb
 ```
 
-Kernel: **Sportify EasyOCR SoccerNet-GS**. Default clips: `SNGS-021`–`023` ([valid-quick manifest](../../../../benchmarks/soccernet-gsr/manifests/valid-quick.yaml)).
+Kernel: **Sportify EasyOCR SoccerNet-GS**. Default clips: `SNGS-021`–`023` ([valid-quick manifest](../../../benchmarks/soccernet-gsr/manifests/valid-quick.yaml)).
 
 If auto-detect fails, set `DATA_ROOT_OVERRIDE` in the notebook’s first code cell.

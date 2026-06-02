@@ -3,8 +3,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-# shellcheck source=../../scripts/sportify-default-data-root.sh
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+# shellcheck source=../../../scripts/sportify-default-data-root.sh
 source "${REPO_ROOT}/scripts/sportify-default-data-root.sh"
 sportify_ensure_data_root
 DATA_ROOT="${SPORTIFY_DATA_ROOT}"
@@ -28,7 +28,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if ! $DRY_RUN; then
-  # shellcheck source=../../scripts/sportify-check-requirements.sh
+  # shellcheck source=../../../scripts/sportify-check-requirements.sh
   source "${REPO_ROOT}/scripts/sportify-check-requirements.sh"
   sportify_check_requirements gsr-run --data-root "${DATA_ROOT}" || exit 1
 fi

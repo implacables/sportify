@@ -93,14 +93,14 @@ Install [uv](https://docs.astral.sh/uv/), then from the **sportify repo root**:
 
 ```bash
 source scripts/sportify-env.sh   # sets SPORTIFY_DATA_ROOT (/workspace or ~/data/sportify)
-benchmarks/soccernet-gsr/setup-bench.sh
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
 ```
 
 Or explicitly:
 
 ```bash
 export SPORTIFY_DATA_ROOT="/workspace"
-benchmarks/soccernet-gsr/setup-bench.sh
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
 ```
 
 This:
@@ -113,16 +113,16 @@ Options:
 
 ```bash
 # Custom data root
-benchmarks/soccernet-gsr/setup-bench.sh --data-root /mnt/data/sportify
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --data-root /mnt/data/sportify
 
 # Train split instead of valid
-benchmarks/soccernet-gsr/setup-bench.sh --split train
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --split train
 
 # Vendor install only (you will download/unzip yourself)
-benchmarks/soccernet-gsr/setup-bench.sh --skip-download
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --skip-download
 
 # Low VRAM GPU patch for baseline (unrelated to download)
-benchmarks/soccernet-gsr/setup-bench.sh --low-vram
+sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --low-vram
 ```
 
 **Valid only** is enough for the EasyOCR notebook (~tens of GB; exact size depends on SoccerNet packaging).
@@ -213,18 +213,18 @@ $SPORTIFY_DATA_ROOT/
 └── rosters/                  # roster JSON (optional)
 ```
 
-Path templates for manifests: [benchmarks/config/reference.yaml](../benchmarks/config/reference.yaml).
+Path templates for manifests: [benchmarks/config/reference.yaml](../sportify-game-reconstruction/benchmarks/config/reference.yaml).
 
 ## Consumers
 
 | Tool | Path used |
 |------|-----------|
-| [soccernet-gsr/setup-bench.sh](../benchmarks/soccernet-gsr/setup-bench.sh) | Downloads into `$SPORTIFY_DATA_ROOT/SoccerNetGS` |
+| [soccernet-gsr/setup-bench.sh](../sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh) | Downloads into `$SPORTIFY_DATA_ROOT/SoccerNetGS` |
 | [EasyOCR SoccerNet-GS notebook](../sportify-game-reconstruction/experiments/easyocr/soccernet-gs/) | `$SPORTIFY_DATA_ROOT/SoccerNetGS/valid/...` |
-| [yolo-soccernet](../benchmarks/yolo-soccernet/) | Same raw tree; writes `$SPORTIFY_DATA_ROOT/yolo-soccernet/` |
+| [yolo-soccernet](../sportify-game-reconstruction/benchmarks/yolo-soccernet/) | Same raw tree; writes `$SPORTIFY_DATA_ROOT/yolo-soccernet/` |
 
 ## Related
 
 - [repo-structure.md](repo-structure.md) — monorepo vs data on VPS  
 - [VPS benchmark plan](plans/2026-05-24-vps-soccernet-baseline-benchmark.md)  
-- [soccernet-gsr/README.md](../benchmarks/soccernet-gsr/README.md)
+- [soccernet-gsr/README.md](../sportify-game-reconstruction/benchmarks/soccernet-gsr/README.md)

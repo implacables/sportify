@@ -2,13 +2,13 @@
 
 > **For agentic workers:** Execute tasks in order. Check each checkbox before proceeding. Do not skip the smoke run (Task 4) before the full clip run (Task 5).
 
-**Goal:** Establish a **measured throughput + GS-HOTA reference** for the official SoccerNet GSR baseline on **RTX 3090 (24 GB)**, using **SoccerNet-GS validation clips**, with results stored under `benchmarks/results/`.
+**Goal:** Establish a **measured throughput + GS-HOTA reference** for the official SoccerNet GSR baseline on **RTX 3090 (24 GB)**, using **SoccerNet-GS validation clips**, with results stored under `sportify-game-reconstruction/benchmarks/results/`.
 
 **Architecture:** Clone Sportify monorepo to VPS. Install upstream `sn-gamestate` as a **vendor dependency** outside git (`~/data/sportify/vendor/`). Download **valid split only**. Run TrackLab baseline twice: smoke (100 frames) then one full 30s clip (`SNGS-021`). Record metrics in repo schema — **do not compare 3090 numbers to paper's A100 1.1 FPS as apples-to-apples**.
 
 **Tech stack:** Ubuntu VPS, NVIDIA RTX 3090, CUDA 11.7+, Python **3.9 only**, [uv](https://docs.astral.sh/uv/), [sn-gamestate](https://github.com/SoccerNet/sn-gamestate) / TrackLab, SoccerNet-GS `gamestate-2024` valid split.
 
-**Related docs:** [repo-structure.md](../repo-structure.md) · [benchmarks/soccernet-gsr/investigation.md](../../benchmarks/soccernet-gsr/investigation.md) · [reference.yaml](../../benchmarks/config/reference.yaml)
+**Related docs:** [repo-structure.md](../repo-structure.md) · [sportify-game-reconstruction/benchmarks/soccernet-gsr/investigation.md](../../sportify-game-reconstruction/benchmarks/soccernet-gsr/investigation.md) · [reference.yaml](../../sportify-game-reconstruction/benchmarks/config/reference.yaml)
 
 ---
 
@@ -87,7 +87,7 @@ export SPORTIFY_DATA_ROOT=~/data/sportify
 - [ ] **Step 1.2: Verify layout**
 
 ```bash
-test -f ~/sportify/benchmarks/soccernet-gsr/run-baseline.sh && \
+test -f ~/sportify/sportify-game-reconstruction/benchmarks/soccernet-gsr/run-baseline.sh && \
 test -f ~/sportify/docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md && \
 echo OK
 ```
@@ -221,7 +221,7 @@ Note exact video id folder (expected `SNGS-021`).
 **Files:**
 
 - Output: `$SPORTIFY_DATA_ROOT/vendor/sn-gamestate/outputs/...`
-- Copy results to: `$SPORTIFY_REPO/benchmarks/results/soccernet-gsr/<timestamp>-smoke/`
+- Copy results to: `$SPORTIFY_REPO/sportify-game-reconstruction/benchmarks/results/soccernet-gsr/<timestamp>-smoke/`
 
 - [ ] **Step 5.1: Run smoke**
 
@@ -277,11 +277,11 @@ Retry Step 5.1.
 ```bash
 cd "$SPORTIFY_DATA_ROOT/vendor/sn-gamestate"
 TS=$(date -u +%Y%m%dT%H%M%SZ)
-OUT="$SPORTIFY_REPO/benchmarks/results/soccernet-gsr/${TS}"
+OUT="$SPORTIFY_REPO/sportify-game-reconstruction/benchmarks/results/soccernet-gsr/${TS}"
 mkdir -p "$OUT"
 
-cp "$SPORTIFY_REPO/benchmarks/soccernet-gsr/manifests/valid-quick.yaml" "$OUT/manifest.yaml"
-cp "$SPORTIFY_REPO/benchmarks/config/reference.yaml" "$OUT/reference.yaml"
+cp "$SPORTIFY_REPO/sportify-game-reconstruction/benchmarks/soccernet-gsr/manifests/valid-quick.yaml" "$OUT/manifest.yaml"
+cp "$SPORTIFY_REPO/sportify-game-reconstruction/benchmarks/config/reference.yaml" "$OUT/reference.yaml"
 nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv > "$OUT/gpu.txt"
 
 START=$(date +%s)
@@ -375,7 +375,7 @@ ln -sfn "$LATEST" "$OUT/upstream-output"
 
 ## Task 7: Optional — three-clip throughput sample
 
-Only after Task 6 succeeds. Uses manifest `benchmarks/soccernet-gsr/manifests/valid-quick.yaml` clips: `SNGS-021`, `SNGS-013`, `SNGS-175`.
+Only after Task 6 succeeds. Uses manifest `sportify-game-reconstruction/benchmarks/soccernet-gsr/manifests/valid-quick.yaml` clips: `SNGS-021`, `SNGS-013`, `SNGS-175`.
 
 - [ ] **Step 7.1: Run each clip** (same flags as Task 6, change `vids_dict`)
 
@@ -388,7 +388,7 @@ Only after Task 6 succeeds. Uses manifest `benchmarks/soccernet-gsr/manifests/va
 - [ ] **Step 8.1: Archive results**
 
 ```bash
-tar -czf ~/soccernet-gsr-baseline-3090.tar.gz -C "$SPORTIFY_REPO/benchmarks/results/soccernet-gsr" .
+tar -czf ~/soccernet-gsr-baseline-3090.tar.gz -C "$SPORTIFY_REPO/sportify-game-reconstruction/benchmarks/results/soccernet-gsr" .
 scp user@vps:~/soccernet-gsr-baseline-3090.tar.gz ~/Downloads/
 ```
 
@@ -416,7 +416,7 @@ scp user@vps:~/soccernet-gsr-baseline-3090.tar.gz ~/Downloads/
 | Deliverable | Location |
 |-------------|----------|
 | Smoke run passed | stdout, no crash |
-| Full clip wall-clock + FPS | `benchmarks/results/soccernet-gsr/<ts>/run-result.json` |
+| Full clip wall-clock + FPS | `sportify-game-reconstruction/benchmarks/results/soccernet-gsr/<ts>/run-result.json` |
 | GS-HOTA on SNGS-021 | same JSON + `stdout.log` |
 | GPU metadata | `gpu.txt` in result folder |
 | Reproducible commands | this plan |
@@ -425,7 +425,7 @@ scp user@vps:~/soccernet-gsr-baseline-3090.tar.gz ~/Downloads/
 
 ## After baseline: Sportify pipeline comparison (future plan)
 
-When Sportify worker exists, rerun **same clips** on **same RTX 3090** with `benchmarks/throughput/manifests/soccernet-clip.yaml`. Compare:
+When Sportify worker exists, rerun **same clips** on **same RTX 3090** with `sportify-game-reconstruction/benchmarks/throughput/manifests/soccernet-clip.yaml`. Compare:
 
 - `effective_fps` (Sportify vs sn-gamestate, **same hardware** — fair)
 - `conditional_steps` counts (Sportify only)

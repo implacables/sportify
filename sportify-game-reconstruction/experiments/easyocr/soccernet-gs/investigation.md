@@ -5,7 +5,7 @@
 
 ## Dataset shape (relevant fields)
 
-Same on-disk tree as [YOLO investigation](../../../../benchmarks/yolo-soccernet/investigation.md): `$SPORTIFY_DATA_ROOT/SoccerNetGS/{split}/{SNGS-XXX}/img1/` + `Labels-GameState.json`.
+Same on-disk tree as [YOLO investigation](../../../benchmarks/yolo-soccernet/investigation.md): `$SPORTIFY_DATA_ROOT/SoccerNetGS/{split}/{SNGS-XXX}/img1/` + `Labels-GameState.json`.
 
 | Property | Value |
 |----------|-------|
@@ -32,7 +32,7 @@ Median labeled player crop (image bbox): ~61×129 px. Full-frame OCR without cro
 
 ## Benchmark protocol
 
-1. Load clip list from [`benchmarks/soccernet-gsr/manifests/valid-quick.yaml`](../../../../benchmarks/soccernet-gsr/manifests/valid-quick.yaml) (or override `CLIP_IDS`).
+1. Load clip list from [`benchmarks/soccernet-gsr/manifests/valid-quick.yaml`](../../../benchmarks/soccernet-gsr/manifests/valid-quick.yaml) (or override `CLIP_IDS`).
 2. For each clip, walk frames with `FRAME_STRIDE` (default 25 → 1 Hz).
 3. **Positive samples:** `category_id == 1` and parseable `attributes.jersey`.
 4. **Negative samples (optional):** `category_id == 1` and null jersey — measure digit false positives on players without GT number.
@@ -58,4 +58,4 @@ Official GSR uses **MMOCR** every frame (~1.1 FPS full pipeline). This bench mea
 
 Requires **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`). SoccerNet files: `$SPORTIFY_DATA_ROOT/SoccerNetGS/`. See [docs/data-layout.md](../../../../docs/data-layout.md).
 
-Download valid split: [benchmarks/soccernet-gsr/setup-bench.sh](../../../../benchmarks/soccernet-gsr/setup-bench.sh).
+Download valid split: [benchmarks/soccernet-gsr/setup-bench.sh](../../../benchmarks/soccernet-gsr/setup-bench.sh).

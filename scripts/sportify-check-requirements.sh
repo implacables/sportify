@@ -14,7 +14,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   exit 1
 fi
 
-# --- thresholds (documented in benchmarks/soccernet-gsr/README.md) ---
+# --- thresholds (documented in sportify-game-reconstruction/benchmarks/soccernet-gsr/README.md) ---
 _SPORTIFY_MIN_DISK_GSR_FULL=$((50 * 1024 * 1024 * 1024))      # valid + weights + venv
 _SPORTIFY_MIN_DISK_GSR_VENDOR=$((15 * 1024 * 1024 * 1024))    # --skip-download
 _SPORTIFY_MIN_DISK_GSR_RUN=$((10 * 1024 * 1024 * 1024))
@@ -316,7 +316,7 @@ sportify_check_requirements() {
         sportify_check_disk_at_least "$data_root" "$_SPORTIFY_MIN_DISK_GSR_RUN" "GSR data root" || true
         local sn_gs="${data_root}/vendor/sn-gamestate"
         if [[ ! -d "${sn_gs}" ]]; then
-          sportify_req_fail "sn-gamestate not found at ${sn_gs} — run benchmarks/soccernet-gsr/setup-bench.sh first"
+          sportify_req_fail "sn-gamestate not found at ${sn_gs} — run sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh first"
         else
           echo "  vendor: ${sn_gs}"
         fi

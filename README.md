@@ -15,15 +15,17 @@ Amateur football platform — **POC** challenges [SoccerNet Game State Reconstru
 ```
 sportify/
 ├── docs/                           # Product + thesis docs, VPS plans
-├── benchmarks/                     # SoccerNet GSR baseline + throughput harness
+├── scripts/                        # Shared tooling
 └── sportify-game-reconstruction/   # Reconstruction pipeline (POC subsystem)
+    ├── benchmarks/                 # SoccerNet GSR baseline + throughput harness
+    └── experiments/                # Exploratory research
 ```
 
 | Path | Contents |
 |------|----------|
 | [`docs/`](docs/) | Product spec, hardware notes, execution plans |
-| [`benchmarks/`](benchmarks/) | Official GSR baseline reproduction + Sportify throughput benchmarks |
 | [`sportify-game-reconstruction/`](sportify-game-reconstruction/) | Pipeline docs and (future) worker code |
+| [`sportify-game-reconstruction/benchmarks/`](sportify-game-reconstruction/benchmarks/) | Official GSR baseline reproduction + Sportify throughput benchmarks |
 
 **VPS benchmark:** [docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md](docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md)
 
@@ -36,4 +38,4 @@ Development moved here from:
 
 ## Data (not in git)
 
-Set **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`) for SoccerNet-GS (`$SPORTIFY_DATA_ROOT/SoccerNetGS/`), vendor baselines, and match video. Quick setup: `source scripts/sportify-env.sh`. Download and layout: [docs/data-layout.md](docs/data-layout.md). Benchmarks: [benchmarks/README.md](benchmarks/README.md).
+Set **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`) for SoccerNet-GS (`$SPORTIFY_DATA_ROOT/SoccerNetGS/`), vendor baselines, and match video. Quick setup: `source scripts/sportify-env.sh`. Download and layout: [docs/data-layout.md](docs/data-layout.md). Benchmarks: [sportify-game-reconstruction/benchmarks/README.md](sportify-game-reconstruction/benchmarks/README.md).
