@@ -1,10 +1,10 @@
 # Benchmark outputs (manifests and schemas are tracked)
-benchmarks/results/*
-!benchmarks/results/.gitkeep
-!benchmarks/results/README.md
+sportify-game-reconstruction/benchmarks/results/*
+!sportify-game-reconstruction/benchmarks/results/.gitkeep
+!sportify-game-reconstruction/benchmarks/results/README.md
 
-# External benchmark dependencies (clone per benchmarks/soccernet-gsr/README.md)
-benchmarks/vendor/
+# External benchmark dependencies
+sportify-game-reconstruction/benchmarks/vendor/
 
 # Datasets, model weights, large media
 data/
