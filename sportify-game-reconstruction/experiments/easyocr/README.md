@@ -9,25 +9,20 @@ Jersey number OCR evaluation for game reconstruction (conditional trials, label 
 ```
 experiments/easyocr/
 ├── images/
-├── throughput-and-errors/              # speed + Type I/II + labels (text)
-├── throughput-errors-and-visualization/  # same + OCR box overlays in notebook
-├── preprocess-ablation/                # image preprocess A/B table
-├── soccernet-gs/                       # EasyOCR on SoccerNet-GS jersey crops
-└── exploratory-trial-logs/             # legacy detailed trial output
+├── synthetic/      # throughput + Type I/II errors + preprocessing ablation on local images
+└── soccernet-gs/   # throughput + accuracy on SoccerNet-GS jersey crops
 ```
 
 ## Run
 
 ```bash
-cd sportify-game-reconstruction/experiments/easyocr/throughput-and-errors   # pick a child
+cd sportify-game-reconstruction/experiments/easyocr/synthetic   # or soccernet-gs
 ./setup.sh
 source .venv/bin/activate
 jupyter notebook *.ipynb
 ```
 
-Use the Jupyter kernel installed by that folder’s `setup.sh`.
-
-Branch: **`experiment/easyocr`**. Sync images:
+Branch: **`experiment/easyocr-speed`**. Sync images:
 
 ```bash
 rsync -av sportify-game-reconstruction/experiments/easyocr/images/ \

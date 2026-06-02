@@ -9,5 +9,5 @@ uv venv --python 3.11
 # shellcheck disable=SC1091
 source .venv/bin/activate
 uv pip install -r requirements.txt
-python -m ipykernel install --user --name sportify-easyocr-preprocess-ablation --display-name "Sportify EasyOCR preprocess ablation"
+python -m ipykernel install --user --name sportify-easyocr-synthetic --display-name "Sportify EasyOCR synthetic"
 echo "Done. cd $(pwd) && source .venv/bin/activate"
