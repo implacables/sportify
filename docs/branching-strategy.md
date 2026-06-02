@@ -56,7 +56,8 @@ Large or machine-local assets (weights, sample images, datasets) stay **out of g
 | Branch | Notes |
 |--------|-------|
 | `main` | Tracks `origin/main`. |
-| `experiment/easyocr` | EasyOCR jersey OCR spike; code in `sportify-game-reconstruction/experiments/easyocr/`. |
+
+No active experiment branches. `experiment/easyocr-speed` was merged 2026-06-02.
 
 ## VPS and multi-machine sync
 

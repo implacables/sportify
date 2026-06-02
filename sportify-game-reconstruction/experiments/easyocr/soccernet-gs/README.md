@@ -26,7 +26,7 @@ $SPORTIFY_DATA_ROOT/SoccerNetGS/valid/SNGS-021/Labels-GameState.json
 Download and extract from the **repo root**:
 
 ```bash
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
+cd sportify-game-reconstruction/benchmarks/soccernet-gsr && make setup
 ```
 
 See [docs/data-layout.md](../../../../docs/data-layout.md) for the full tree, manual unzip, and VPS notes.
@@ -35,7 +35,7 @@ See [docs/data-layout.md](../../../../docs/data-layout.md) for the full tree, ma
 
 ```bash
 cd sportify-game-reconstruction/experiments/easyocr/soccernet-gs
-./setup.sh && source .venv/bin/activate
+make setup && source .venv/bin/activate
 # ensure SPORTIFY_DATA_ROOT is set in this shell before jupyter
 jupyter notebook easyocr_soccernet_gs.ipynb
 ```

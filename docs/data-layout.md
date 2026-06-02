@@ -87,43 +87,39 @@ Some tasks download labels without video; **gamestate-2024** includes frame JPEG
 
 ## Download methods
 
-### Method A — Sportify script (recommended)
+### Method A — Sportify Makefile (recommended)
 
-Install [uv](https://docs.astral.sh/uv/), then from the **sportify repo root**:
+Install [uv](https://docs.astral.sh/uv/), then:
 
 ```bash
 source scripts/sportify-env.sh   # sets SPORTIFY_DATA_ROOT (/workspace or ~/data/sportify)
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
+cd sportify-game-reconstruction/benchmarks/soccernet-gsr
+make setup
 ```
 
-Or explicitly:
+Or with an explicit data root:
 
 ```bash
-export SPORTIFY_DATA_ROOT="/workspace"
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh
+cd sportify-game-reconstruction/benchmarks/soccernet-gsr
+make setup DATA_ROOT="/workspace"
 ```
 
 This:
 
-1. Clones [sn-gamestate](https://github.com/SoccerNet/sn-gamestate) → `$SPORTIFY_DATA_ROOT/vendor/sn-gamestate` (Python 3.9 venv, ~10–30 min first time)
+1. Clones [sn-gamestate](https://github.com/SoccerNet/sn-gamestate) → `$DATA_ROOT/vendor/sn-gamestate` (Python 3.9 venv, ~10–30 min first time)
 2. Runs `SoccerNetDownloader(...).downloadDataTask(task="gamestate-2024", split=[valid])`
 3. Unzips `gamestate-2024/valid.zip` → `SoccerNetGS/valid/`
 
-Options:
+Options (passed as Make variables):
 
 ```bash
-# Custom data root
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --data-root /mnt/data/sportify
-
-# Train split instead of valid
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --split train
-
-# Vendor install only (you will download/unzip yourself)
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --skip-download
-
-# Low VRAM GPU patch for baseline (unrelated to download)
-sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh --low-vram
+make setup DATA_ROOT=/mnt/data/sportify  # custom data root
+make setup SPLIT=train                   # train split instead of valid
+make setup SKIP_DOWNLOAD=1               # vendor install only (dataset already on disk)
+make setup LOW_VRAM=1                    # patch batch sizes for <= 8 GB VRAM
 ```
+
+Run `make dry-run` first to check prerequisites and see resolved paths without installing anything.
 
 **Valid only** is enough for the EasyOCR notebook (~tens of GB; exact size depends on SoccerNet packaging).
 
@@ -219,7 +215,7 @@ Path templates for manifests: [benchmarks/config/reference.yaml](../sportify-gam
 
 | Tool | Path used |
 |------|-----------|
-| [soccernet-gsr/setup-bench.sh](../sportify-game-reconstruction/benchmarks/soccernet-gsr/setup-bench.sh) | Downloads into `$SPORTIFY_DATA_ROOT/SoccerNetGS` |
+| [soccernet-gsr `make setup`](../sportify-game-reconstruction/benchmarks/soccernet-gsr/Makefile) | Downloads into `$DATA_ROOT/SoccerNetGS` |
 | [EasyOCR SoccerNet-GS notebook](../sportify-game-reconstruction/experiments/easyocr/soccernet-gs/) | `$SPORTIFY_DATA_ROOT/SoccerNetGS/valid/...` |
 | [yolo-soccernet](../sportify-game-reconstruction/benchmarks/yolo-soccernet/) | Same raw tree; writes `$SPORTIFY_DATA_ROOT/yolo-soccernet/` |
 

@@ -10,7 +10,7 @@ Reproduce the official baseline and (optionally) score GS-HOTA on SoccerNet-GS c
 - RAM: ≥ 16 GB available
 - Disk: ≥ 50 GB free at `SPORTIFY_DATA_ROOT` (≥ 15 GB if `--skip-download`)
 
-`setup-bench.sh` and `run-baseline.sh` run these checks before clone/install/run. To inspect manually:
+`make setup` and `make run` run these checks before clone/install/run. To inspect manually:
 
 ```bash
 source scripts/sportify-check-requirements.sh
@@ -20,14 +20,17 @@ sportify_check_requirements gsr-setup --data-root "${SPORTIFY_DATA_ROOT:-$HOME/d
 ## One-time setup
 
 ```bash
+cd sportify-game-reconstruction/benchmarks/soccernet-gsr
 export SPORTIFY_DATA_ROOT="${SPORTIFY_DATA_ROOT:-$HOME/data/sportify}"
 
-# Automated setup (vendor clone, venv, dataset download, config paths)
-./benchmarks/soccernet-gsr/setup-bench.sh
-
-# GPUs with <= 8 GB VRAM (e.g. RTX 3060 Laptop):
-./benchmarks/soccernet-gsr/setup-bench.sh --low-vram
+make setup                  # clone, install, download dataset, patch config
+make setup LOW_VRAM=1       # same but patches batch sizes for <= 8 GB VRAM
+make setup SPLIT=train      # download train split instead of valid
+make setup SKIP_DOWNLOAD=1  # vendor install only (dataset already on disk)
+make setup DATA_ROOT=/path  # override data root
 ```
+
+Run `make dry-run` first to check prerequisites and see resolved paths without installing anything.
 
 Manual steps (if you prefer):
 
@@ -53,10 +56,10 @@ Dataset: downloaded by `setup-bench.sh`, or auto-download on first `tracklab` ru
 
 ## Run
 
-From the Sportify repo:
-
 ```bash
-./benchmarks/soccernet-gsr/run-baseline.sh --manifest benchmarks/soccernet-gsr/manifests/valid-quick.yaml
+cd sportify-game-reconstruction/benchmarks/soccernet-gsr
+make run                              # uses manifests/valid-quick.yaml
+make run MANIFEST=path/to/custom.yaml
 ```
 
 Or directly in the vendor clone:
@@ -66,7 +69,17 @@ cd "$SPORTIFY_DATA_ROOT/vendor/sn-gamestate"
 uv run tracklab -cn soccernet
 ```
 
-Results land in `benchmarks/results/soccernet-gsr/<timestamp>/` when using the wrapper.
+Results land in `sportify-game-reconstruction/benchmarks/results/soccernet-gsr/<timestamp>/` when using the wrapper.
+
+## Variables
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `DATA_ROOT` | auto (`/workspace` or `~/data/sportify`) | SoccerNet data location |
+| `SPLIT` | `valid` | Dataset split to download |
+| `SKIP_DOWNLOAD` | unset | Set to `1` to skip dataset download |
+| `LOW_VRAM` | unset | Set to `1` to patch batch sizes for ≤ 8 GB VRAM |
+| `MANIFEST` | `manifests/valid-quick.yaml` | Clip manifest for `make run` |
 
 ## Manifests
 

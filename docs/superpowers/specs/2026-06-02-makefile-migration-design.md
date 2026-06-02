@@ -1,6 +1,7 @@
 # Makefile Migration Design
 
 **Date:** 2026-06-02
+**Status:** Implemented — 2026-06-02
 **Scope:** Replace user-facing shell scripts with co-located Makefiles across the project.
 
 ---
