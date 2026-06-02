@@ -34,17 +34,17 @@ if ! $DRY_RUN; then
 fi
 
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
-OUT_DIR="${REPO_ROOT}/benchmarks/results/soccernet-gsr/${TIMESTAMP}"
+OUT_DIR="${REPO_ROOT}/sportify-game-reconstruction/benchmarks/results/soccernet-gsr/${TIMESTAMP}"
 
 if [[ ! -d "$SN_GS" ]]; then
   echo "error: sn-gamestate not found at ${SN_GS}" >&2
-  echo "See benchmarks/soccernet-gsr/README.md for setup." >&2
+  echo "See sportify-game-reconstruction/benchmarks/soccernet-gsr/README.md for setup." >&2
   exit 1
 fi
 
 mkdir -p "$OUT_DIR"
 cp "$MANIFEST" "$OUT_DIR/manifest.yaml"
-cp "${REPO_ROOT}/benchmarks/config/reference.yaml" "$OUT_DIR/reference.yaml"
+cp "${REPO_ROOT}/sportify-game-reconstruction/benchmarks/config/reference.yaml" "$OUT_DIR/reference.yaml"
 
 meta() {
   cat > "$OUT_DIR/run-meta.json" <<EOF
