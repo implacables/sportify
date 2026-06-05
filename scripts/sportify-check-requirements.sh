@@ -19,6 +19,7 @@ _SPORTIFY_MIN_DISK_GSR_FULL=$((50 * 1024 * 1024 * 1024))      # valid + weights 
 _SPORTIFY_MIN_DISK_GSR_VENDOR=$((15 * 1024 * 1024 * 1024))    # --skip-download
 _SPORTIFY_MIN_DISK_GSR_RUN=$((10 * 1024 * 1024 * 1024))
 _SPORTIFY_MIN_DISK_EASYOCR=$((2 * 1024 * 1024 * 1024))
+_SPORTIFY_MIN_DISK_YOLO_BENCH=$((2 * 1024 * 1024 * 1024))     # ultralytics venv + converted labels
 _SPORTIFY_MIN_RAM_GSR=$((16 * 1024 * 1024 * 1024))
 _SPORTIFY_MIN_RAM_EASYOCR=$((8 * 1024 * 1024 * 1024))
 _SPORTIFY_MIN_VRAM_MB=8192
@@ -321,6 +322,23 @@ sportify_check_requirements() {
           echo "  vendor: ${sn_gs}"
         fi
       fi
+      ;;
+    yolo-bench)
+      sportify_check_common
+      sportify_check_os_easyocr  # Linux or macOS; warns on macOS
+      sportify_check_nvidia_gpu false  # GPU optional — YOLO runs on CPU too
+      if [[ -z "$data_root" ]]; then
+        sportify_req_fail "yolo-bench profile requires --data-root PATH"
+      else
+        sportify_check_disk_at_least "$data_root" "$_SPORTIFY_MIN_DISK_YOLO_BENCH" "YOLO bench venv + labels" || true
+        local sn_gs="${data_root}/SoccerNetGS"
+        if [[ ! -d "${sn_gs}" ]]; then
+          sportify_req_warn "SoccerNetGS not found at ${sn_gs} — dataset required for convert and eval"
+        else
+          echo "  dataset: ${sn_gs}"
+        fi
+      fi
+      sportify_check_uv_python 3.10
       ;;
     *)
       sportify_req_fail "unknown profile: ${profile} (use common | easyocr | gsr-setup | gsr-run)"
