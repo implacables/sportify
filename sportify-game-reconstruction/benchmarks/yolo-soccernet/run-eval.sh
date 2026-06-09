@@ -84,6 +84,7 @@ echo "  GPU: ${GPU_INFO}"
 
 echo "==> YOLO eval: ${MODEL} on $(basename "${DATA_YAML}") (imgsz=${IMGSZ})"
 
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 "${VENV_PYTHON}" - <<PYEOF 2>&1 | tee "${OUT_DIR}/stdout.log"
 import json, sys, shutil
 from pathlib import Path

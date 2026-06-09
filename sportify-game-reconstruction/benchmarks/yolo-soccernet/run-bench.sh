@@ -116,8 +116,10 @@ echo "  GPU: ${GPU_INFO}"
 
 echo "==> YOLO bench: ${BENCH_CLIP} — ${MODEL}, imgsz=${IMGSZ}, batch=${BATCH}"
 
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 "${VENV_PYTHON}" - <<PYEOF 2>&1 | tee "${OUT_DIR}/stdout.log"
 import json, sys, time
+import torch
 from pathlib import Path
 from ultralytics import YOLO
 
@@ -138,22 +140,20 @@ print(f"  loading model: {model_name}")
 model = YOLO(model_name)
 
 print(f"  warmup: {WARMUP_N} frames")
-model.predict(
-    [str(f) for f in frames[:WARMUP_N]],
-    imgsz=imgsz, batch=batch, verbose=False, stream=False,
-)
+for f in frames[:WARMUP_N]:
+    model.predict(str(f), imgsz=imgsz, verbose=False)
+torch.cuda.empty_cache()
 
-timed_paths = [str(f) for f in frames]
-print(f"  timed run: {len(timed_paths)} frames ...")
+print(f"  timed run: {len(frames)} frames ...")
 t0 = time.perf_counter()
-for _ in model.predict(timed_paths, imgsz=imgsz, batch=batch, verbose=False, stream=True):
-    pass
+for f in frames:
+    model.predict(str(f), imgsz=imgsz, verbose=False)
 t1 = time.perf_counter()
 
 wall = t1 - t0
-fps  = len(timed_paths) / wall
+fps  = len(frames) / wall
 print(f"  wall_clock:    {wall:.2f}s")
-print(f"  frames:        {len(timed_paths)}")
+print(f"  frames:        {len(frames)}")
 print(f"  inference_fps: {fps:.1f}")
 
 result = {
@@ -175,7 +175,7 @@ result = {
     "metrics": {
         "clip_id": "${BENCH_CLIP}",
         "split": "${SN_SPLIT}",
-        "frames_processed": len(timed_paths),
+        "frames_processed": len(frames),
         "wall_clock_seconds": round(wall, 3),
         "inference_fps": round(fps, 2),
         "map50": None,

@@ -388,13 +388,29 @@ flowchart LR
 
 ---
 
-## 12. Follow-up implementation (out of scope for this spec)
+## 12. Phase A results (RTX 3090, valid-quick manifest, SNGS-021–023)
+
+Pretrained COCO weights, imgsz 640, batch 1, single-frame loop (see §7.2 bench note).
+
+| Model | FPS (SNGS-021) | mAP@0.5 | mAP@0.5:0.95 | Precision | Recall |
+|-------|---------------|---------|--------------|-----------|--------|
+| yolo11n | 25.6 | 0.855 | 0.475 | 0.866 | 0.837 |
+| yolo26n | ~28–29 | 0.828 | 0.471 | 0.848 | 0.802 |
+| **yolo26m** | **33.7** | **0.910** | **0.573** | **0.898** | **0.892** |
+
+**Selected model: yolo26m.** Highest accuracy and fastest FPS on RTX 3090. Phase B fine-tuning deferred — mAP 0.91 is sufficient as a sanity check; throughput is the primary POC gate.
+
+> **Bench note (run-bench.sh OOM fix):** Passing all 750 frame paths as a list to `model.predict()` caused ultralytics to load all 1920×1080 source images before resizing (~14 GB). Fixed by iterating one frame at a time with a Python `for` loop. Single-frame GPU footprint for yolo26m is ~0.3 GB.
+
+---
+
+## 13. Follow-up implementation (out of scope for this spec)
 
 | Artifact | Purpose |
 |----------|---------|
 | `convert_to_yolo.py` | Labels-GameState → YOLO layout |
 | `run-eval.sh` | Phase A/B validation wrapper |
-| `run-bench.sh` | Throughput timing wrapper |
+| `run-bench.sh` | Throughput timing wrapper (see §12 for OOM note) |
 | `setup-bench.sh` | Ultralytics venv setup |
 
 ---

@@ -31,15 +31,25 @@ cd sportify-game-reconstruction/benchmarks/soccernet-gsr && make setup
 
 See [docs/data-layout.md](../../../../docs/data-layout.md) for the full tree, manual unzip, and VPS notes.
 
-## Run notebook
+## Run
+
+**CLI (preferred):**
 
 ```bash
 cd sportify-game-reconstruction/experiments/easyocr/soccernet-gs
+make setup
+.venv/bin/python run_bench.py                          # default: valid-quick clips, stride 25
+.venv/bin/python run_bench.py --clip-ids SNGS-021      # single clip
+.venv/bin/python run_bench.py --frame-stride 5         # denser sampling
+```
+
+Results written to `benchmarks/results/easyocr-soccernet-gs/<timestamp>/` (gitignored).
+
+**Notebook (interactive):**
+
+```bash
 make setup && source .venv/bin/activate
-# ensure SPORTIFY_DATA_ROOT is set in this shell before jupyter
 jupyter notebook easyocr_soccernet_gs.ipynb
 ```
 
 Kernel: **Sportify EasyOCR SoccerNet-GS**. Default clips: `SNGS-021`–`023` ([valid-quick manifest](../../../benchmarks/soccernet-gsr/manifests/valid-quick.yaml)).
-
-If auto-detect fails, set `DATA_ROOT_OVERRIDE` in the notebook’s first code cell.

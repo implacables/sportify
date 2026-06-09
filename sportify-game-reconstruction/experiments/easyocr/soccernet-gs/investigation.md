@@ -54,6 +54,27 @@ Not GS-HOTA: this isolates **image-space jersey OCR** on GT boxes (oracle detect
 
 Official GSR uses **MMOCR** every frame (~1.1 FPS full pipeline). This bench measures **EasyOCR** only on labeled crops to inform whether EasyOCR is viable before integration.
 
+## Results (RTX 3090, valid-quick, SNGS-021–023, frame_stride=25, image_scale=4)
+
+| Metric | Value |
+|--------|-------|
+| Positive crops | 1 029 |
+| **Exact match** | **84 / 1 029 (8.2%)** |
+| Miss (no digit returned) | 832 / 1 029 (80.9%) |
+| Wrong digit | 113 / 1 029 (11.0%) |
+| False positive on null-jersey players | 22 / 200 (11.0%) |
+| Mean latency | 31.5 ms/crop → 31.7 crops/s |
+
+Per-clip breakdown:
+
+| Clip | Correct / Total | Accuracy |
+|------|----------------|---------|
+| SNGS-021 | 31 / 207 | 15.0% |
+| SNGS-022 | 30 / 285 | 10.5% |
+| SNGS-023 | 23 / 537 | 4.3% |
+
+**Verdict: not viable.** The dominant failure mode is miss (80.9%) — EasyOCR returns no digit at all on the majority of GT player crops, even at 4× upscale. Wrong predictions are mostly hallucinated fragments (e.g. `13 → 1450048`, `17 → 1`). Speed (32 crops/s) would also be tight for a conditional pipeline step. **EasyOCR is ruled out; OCR tool selection deferred to a follow-on investigation.**
+
 ## Setup
 
 Requires **`SPORTIFY_DATA_ROOT`** (default `~/data/sportify`). SoccerNet files: `$SPORTIFY_DATA_ROOT/SoccerNetGS/`. See [docs/data-layout.md](../../../../docs/data-layout.md).
