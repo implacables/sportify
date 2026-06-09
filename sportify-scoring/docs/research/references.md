@@ -1,8 +1,8 @@
 # Referencias — papers y fuentes
 
-Bibliografía del sistema de scoring & matchmaking. Cada método que usamos sale de acá. La síntesis está en [scoring-matchmaking.md](scoring-matchmaking.md); las decisiones que derivan de estas fuentes, en [../decisions/log.md](../decisions/log.md).
+Bibliografía del sistema de scoring & matchmaking. Cada método que usamos sale de acá. El desarrollo por tema está en las [../investigations/](../investigations/); las decisiones que derivan de estas fuentes, en [../decisions/log.md](../decisions/log.md).
 
-> 📄 Los PDFs de los papers se mantienen **localmente** (fuera de git). Esta es la **fuente única de links**.
+> 📄 PDFs en [`papers/`](papers/), agrupados por tema. Pitch control y OBSO quedaron solo como link (los hosts bloquean la descarga).
 
 > Convención: cuando implementemos un método, el issue/código cita la entrada de esta lista (`[ref: pitch-control]`) para mantener la trazabilidad.
 

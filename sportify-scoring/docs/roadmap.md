@@ -1,6 +1,6 @@
 # Roadmap — Scoring & Matchmaking
 
-Plan de construcción. Estructurado por las **dos ramas** (ver [architecture.md](architecture.md) §2) sobre la **columna del medallón** (§3). Cada bloque se romperá en issues de GitHub trazables a [research/references.md](research/references.md).
+Plan de construcción. Estructurado por las **dos ramas** (ver [overview.md](overview.md)) sobre la **columna del medallón** ([spec/datos-medallon.md](spec/datos-medallon.md)). Cada bloque es trazable a [research/references.md](research/references.md).
 
 > **Leyenda de estado:** ⬜ no empezado · 🟦 en progreso · ✅ hecho
 
@@ -10,9 +10,9 @@ Plan de construcción. Estructurado por las **dos ramas** (ver [architecture.md]
 
 | | Estado |
 |---|---|
-| Arquitectura y stack | ✅ decidido ([architecture.md](architecture.md)) |
+| Arquitectura y stack | ✅ decidido ([spec/overview.md](spec/overview.md)) |
 | Research consolidada | ✅ ([research/](research/)) |
-| Alcance analítico / validación | 🟦 en definición ([architecture.md](architecture.md) §9) |
+| Alcance analítico / validación | 🟦 en definición |
 | Código | ⬜ no empezado |
 
 ---
@@ -43,7 +43,7 @@ Dependencias reales; arranca por lo robusto (direction-agnostic) [ref: `compactn
 | B6 | OBSO + valor de posesión (xT, VAEP/EPV) [ref: `obso`,`epv`,`socceraction`] | B3, B5 | 🟡 | ⬜ |
 | B7 | **Score de dominancia** (ΔxG, Δpitch-control, ΔEPV, Δfield-tilt) | B5, B6 | 🟡 | ⬜ |
 
-> ⚠️ B3/B4/B6 dependen de **eventos derivados** → choca con "scoring v1 sin event detection". Frontera **a definir** ([architecture.md](architecture.md) §9).
+> ⚠️ B3/B4/B6 dependen de **eventos derivados** → choca con "scoring v1 sin event detection". Frontera **a definir** ([overview.md](overview.md)).
 
 ## 🌳 Rama A — Matchmaking (la base)
 
