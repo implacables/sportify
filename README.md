@@ -9,6 +9,7 @@ Amateur football platform — **POC** challenges [SoccerNet Game State Reconstru
 | [docs/product-stages.md](docs/product-stages.md) | POC vs thesis scope vs deferred |
 | [docs/overview.md](docs/overview.md) | Product overview |
 | [docs/repo-structure.md](docs/repo-structure.md) | Monorepo layout |
+| [sportify-scoring/README.md](sportify-scoring/README.md) | Scoring + matchmaking (thesis subsystem) |
 
 ## Repository layout
 
@@ -16,9 +17,13 @@ Amateur football platform — **POC** challenges [SoccerNet Game State Reconstru
 sportify/
 ├── docs/                           # Product + thesis docs, VPS plans
 ├── scripts/                        # Shared tooling
-└── sportify-game-reconstruction/   # Reconstruction pipeline (POC subsystem)
-    ├── benchmarks/                 # SoccerNet GSR baseline + throughput harness
-    └── experiments/                # Exploratory research
+├── sportify-game-reconstruction/   # Reconstruction pipeline (POC subsystem)
+│   ├── benchmarks/                 # SoccerNet GSR baseline + throughput harness
+│   └── experiments/                # Exploratory research
+└── sportify-scoring/               # Scoring & matchmaking (thesis subsystem)
+    ├── docs/                       # Architecture, roadmap, decisions, research + papers
+    ├── backend-go/                 # Serving API (Go)
+    └── workers-py/                 # Analytics + rating workers (Python)
 ```
 
 | Path | Contents |
@@ -26,6 +31,7 @@ sportify/
 | [`docs/`](docs/) | Product spec, hardware notes, execution plans |
 | [`sportify-game-reconstruction/`](sportify-game-reconstruction/) | Pipeline docs and (future) worker code |
 | [`sportify-game-reconstruction/benchmarks/`](sportify-game-reconstruction/benchmarks/) | Official GSR baseline reproduction + Sportify throughput benchmarks |
+| [`sportify-scoring/`](sportify-scoring/) | Scoring + matchmaking system: architecture, decisions, research/papers, Go + Python scaffold |
 
 **VPS benchmark:** [docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md](docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md)
 
