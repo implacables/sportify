@@ -40,10 +40,10 @@ Arquitectura de código: **monolito modular → microservices-ready**.
 
 ```
 sportify-scoring/
-├── docs/              # arquitectura, roadmap, decisiones (ADR), research + papers
-├── backend-go/        # API de servicio (Go) — modular por dominio
-└── workers-py/        # analytics (medallón) + rating (Python) — modular por etapa
+└── docs/              # arquitectura, roadmap, decisiones (ADR), research
 ```
+
+> **Código (próximamente):** `backend-go/` (API Go) y `workers-py/` (workers Python) se agregan en un PR aparte cuando arranque la construcción. La estructura de código planificada está en [docs/architecture.md](docs/architecture.md) §6.
 
 ## Docs
 

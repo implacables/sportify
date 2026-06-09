@@ -21,9 +21,7 @@ sportify/
 │   ├── benchmarks/                 # SoccerNet GSR baseline + throughput harness
 │   └── experiments/                # Exploratory research
 └── sportify-scoring/               # Scoring & matchmaking (thesis subsystem)
-    ├── docs/                       # Architecture, roadmap, decisions, research + papers
-    ├── backend-go/                 # Serving API (Go)
-    └── workers-py/                 # Analytics + rating workers (Python)
+    └── docs/                       # Architecture, roadmap, decisions, research
 ```
 
 | Path | Contents |
@@ -31,7 +29,7 @@ sportify/
 | [`docs/`](docs/) | Product spec, hardware notes, execution plans |
 | [`sportify-game-reconstruction/`](sportify-game-reconstruction/) | Pipeline docs and (future) worker code |
 | [`sportify-game-reconstruction/benchmarks/`](sportify-game-reconstruction/benchmarks/) | Official GSR baseline reproduction + Sportify throughput benchmarks |
-| [`sportify-scoring/`](sportify-scoring/) | Scoring + matchmaking system: architecture, decisions, research/papers, Go + Python scaffold |
+| [`sportify-scoring/`](sportify-scoring/) | Scoring + matchmaking system: architecture, decisions, and research (code scaffold lands in a later PR) |
 
 **VPS benchmark:** [docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md](docs/plans/2026-05-24-vps-soccernet-baseline-benchmark.md)
 

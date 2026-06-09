@@ -2,7 +2,7 @@
 
 Bibliografía del sistema de scoring & matchmaking. Cada método que usamos sale de acá. La síntesis está en [scoring-matchmaking.md](scoring-matchmaking.md); las decisiones que derivan de estas fuentes, en [../decisions/log.md](../decisions/log.md).
 
-> 📄 **Copias locales de los PDFs:** [`papers/`](papers/) (9 papers descargados en el repo).
+> 📄 Los PDFs de los papers se mantienen **localmente** (fuera de git). Esta es la **fuente única de links**.
 
 > Convención: cuando implementemos un método, el issue/código cita la entrada de esta lista (`[ref: pitch-control]`) para mantener la trazabilidad.
 

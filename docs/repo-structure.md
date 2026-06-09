@@ -26,9 +26,7 @@ sportify/                          # github.com/<org>/sportify
 │   ├── docs/
 │   └── src/                       # future pipeline code
 └── sportify-scoring/              # thesis: scoring + matchmaking
-    ├── docs/                      # architecture, roadmap, decisions, research + papers
-    ├── backend-go/                # serving API (Go)
-    └── workers-py/                # analytics + rating workers (Python)
+    └── docs/                      # architecture, roadmap, decisions, research
 ```
 
 ## GitHub migration (completed)
