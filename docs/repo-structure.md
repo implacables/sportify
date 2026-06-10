@@ -56,4 +56,4 @@ See **[branching-strategy.md](branching-strategy.md)**. Summary: **`main`** for 
 
 ## Thesis subsystems (in the monorepo)
 
-Scoring and matchmaking live in **[`sportify-scoring/`](../sportify-scoring/)** within this monorepo (decision: keep one repo during the POC; the modular-monolith design lets them be extracted later if needed). They consume the reconstruction JSON artifacts. See [`sportify-scoring/docs/overview.md`](../sportify-scoring/docs/overview.md).
+Scoring and matchmaking live in **[`sportify-scoring/`](../sportify-scoring/)** within this monorepo (decision: keep one repo during the POC; the modular-monolith design lets them be extracted later if needed). They consume the reconstruction JSON artifacts. See [`sportify-scoring/docs/`](../sportify-scoring/docs/index.md).

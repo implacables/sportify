@@ -1,6 +1,6 @@
 # Referencias — papers y fuentes
 
-Bibliografía del sistema de scoring & matchmaking. Cada método que usamos sale de acá. El desarrollo por tema está en las [../investigations/](../investigations/); las decisiones que derivan de estas fuentes, en [../decisions/log.md](../decisions/log.md).
+Bibliografía del sistema de scoring & matchmaking. Cada método que usamos sale de acá. El desarrollo por tema está en las [las áreas del sistema](../index.md); las decisiones que derivan de estas fuentes, en [../decisions/log.md](../decisions/log.md).
 
 > 📄 PDFs en [`papers/`](papers/), agrupados por tema. Pitch control y OBSO quedaron solo como link (los hosts bloquean la descarga).
 

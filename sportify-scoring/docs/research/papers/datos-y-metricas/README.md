@@ -6,4 +6,4 @@
 | nature-tactical-s41598-025-97765-y.pdf | `compactness` | Análisis táctico posicional. |
 | line-breaking-passes.pdf | `line-breaking` | Line-breaking passes vía clustering de líneas defensivas. |
 
-Investigación: [../../../investigations/datos-y-metricas.md](../../../investigations/datos-y-metricas.md) · Bibliografía: [../../references.md](../../references.md)
+Investigación: [../../../analytics/metricas/index.md](../../../analytics/metricas/index.md) · Bibliografía: [../../references.md](../../references.md)

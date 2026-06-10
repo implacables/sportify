@@ -1,6 +1,6 @@
 # Research — Scoring & Matchmaking
 
-La investigación que fundamenta el sistema. El **desarrollo por tema** vive en las [investigations/](../investigations/); acá están las **fuentes**.
+La investigación que fundamenta el sistema. El **desarrollo por tema** vive en las [áreas del sistema](../index.md); acá están las **fuentes**.
 
 | Recurso | Qué es |
 |---------|--------|
@@ -10,7 +10,7 @@ La investigación que fundamenta el sistema. El **desarrollo por tema** vive en 
 ## Trazabilidad
 
 ```
-investigations/<tema>.md   →   references.md (id + link)   →   papers/<tema>/archivo.pdf
+<area>/<tema>.md   →   references.md (id + link)   →   papers/<tema>/archivo.pdf
 ```
 
 De una línea de un doc al paper, en dos saltos.

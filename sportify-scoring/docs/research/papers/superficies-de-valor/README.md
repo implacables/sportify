@@ -7,4 +7,4 @@
 
 **Solo link** (host bloquea descarga): pitch control (`pitch-control`), OBSO (`obso`) — ver [../../references.md](../../references.md).
 
-Investigación: [../../../investigations/superficies-de-valor.md](../../../investigations/superficies-de-valor.md)
+Investigación: [../../../analytics/valor/index.md](../../../analytics/valor/index.md)

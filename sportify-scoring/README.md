@@ -4,24 +4,27 @@
 
 Mide el skill de los jugadores desde el tracking del partido (analytics) y los empareja parejo (matchmaking). Sistema **separado** del POC de reconstrucción; consume su contrato per-frame. El aporte original: emparejar con **visión por computadora** en vez de evaluación subjetiva.
 
-## Docs
+## Documentación
 
-| Document | Description |
-|----------|-------------|
-| [docs/overview.md](docs/overview.md) | Big picture: dos ramas + puente, stack, estado |
-| [docs/spec/overview.md](docs/spec/overview.md) | Arquitectura: stack, módulos, base de datos |
-| [docs/spec/contratos.md](docs/spec/contratos.md) | Contratos de entrada/salida |
-| [docs/spec/datos-medallon.md](docs/spec/datos-medallon.md) | Capas de datos (bronze/silver/gold) |
-| [docs/spec/analytics.md](docs/spec/analytics.md) | Rama de analytics: métricas, valor, dominancia |
-| [docs/spec/matchmaking.md](docs/spec/matchmaking.md) | Rama de matchmaking: OpenSkill, puente, reparto |
-| [docs/investigations/](docs/investigations/) | Temas factuales: datos, valor, rating |
-| [docs/decisions/log.md](docs/decisions/log.md) | Decisiones (ADR) |
-| [docs/research/](docs/research/) | Research + papers por tema |
-| [docs/glosario.md](docs/glosario.md) | Términos |
-| [docs/roadmap.md](docs/roadmap.md) | Plan + estado |
+Está organizada por **áreas** en [`docs/`](docs/index.md), y se puede ver como **sitio navegable** (sidebar + buscador) con MkDocs:
 
-Product context: [../docs/overview.md](../docs/overview.md) · Reconstrucción: [../sportify-game-reconstruction/](../sportify-game-reconstruction/)
+```bash
+pip install mkdocs-material
+mkdocs serve      # http://127.0.0.1:8000
+```
+
+| Área | Qué cubre |
+|------|-----------|
+| [Inicio](docs/index.md) | el mapa: dos ramas + el puente |
+| [Datos](docs/datos/index.md) | el `Frame` + la limpieza (silver) |
+| [Analytics](docs/analytics/index.md) | métricas espaciales, superficies de valor, dominancia |
+| [Matchmaking](docs/matchmaking/index.md) | rating, el puente, emparejamiento |
+| [Plataforma](docs/plataforma/index.md) | backend Go, workers, base de datos, identidad |
+
+Además: [Decisiones (ADR)](docs/decisions/log.md) · [Research + papers](docs/research/README.md) · [Glosario](docs/glosario.md) · [Roadmap](docs/roadmap.md)
+
+Reconstrucción (upstream): [`../sportify-game-reconstruction/`](../sportify-game-reconstruction/)
 
 ## Code
 
-Backend Go (`backend-go/`) y workers Python (`workers-py/`) vivirán acá. Estructura planificada en [docs/spec/overview.md](docs/spec/overview.md). Not started yet.
+Backend Go (`backend-go/`) y workers Python (`workers-py/`) vivirán acá. Not started yet.

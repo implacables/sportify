@@ -6,4 +6,4 @@
 | glicko2.pdf | `glicko2` | Glicko-2 — rating + incertidumbre (RD) + volatilidad. |
 | rating-forecasting.pdf | `forecasting` | Evaluación de sistemas de rating/forecasting. |
 
-Investigación: [../../../investigations/rating-y-matchmaking.md](../../../investigations/rating-y-matchmaking.md)
+Investigación: [../../../matchmaking/rating/index.md](../../../matchmaking/rating/index.md)
