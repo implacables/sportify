@@ -6,12 +6,7 @@ Mide el skill de los jugadores desde el tracking del partido (analytics) y los e
 
 ## Documentación
 
-Está organizada por **áreas** en [`docs/`](docs/index.md), y se puede ver como **sitio navegable** (sidebar + buscador) con MkDocs:
-
-```bash
-pip install mkdocs-material
-mkdocs serve      # http://127.0.0.1:8000
-```
+Organizada por **áreas** en [`docs/`](docs/index.md) — se navega directo en GitHub, carpeta por carpeta (área → tema → concepto).
 
 | Área | Qué cubre |
 |------|-----------|
