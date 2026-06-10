@@ -33,6 +33,8 @@ Mide el skill de los jugadores desde el tracking del partido (analytics) y los e
 | la arquitectura técnica | [spec/overview.md](spec/overview.md) |
 | los contratos de datos | [spec/contratos.md](spec/contratos.md) |
 | las capas de datos | [spec/datos-medallon.md](spec/datos-medallon.md) |
+| la rama de analytics | [spec/analytics.md](spec/analytics.md) |
+| la rama de matchmaking | [spec/matchmaking.md](spec/matchmaking.md) |
 | la ciencia detrás | [investigations/](investigations/) · [research/](research/) |
 | el porqué de cada decisión | [decisions/log.md](decisions/log.md) |
 | el plan y el estado | [roadmap.md](roadmap.md) |

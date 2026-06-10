@@ -8,6 +8,8 @@
 | [spec/overview.md](spec/overview.md) | Arquitectura técnica (stack, módulos, base de datos) |
 | [spec/contratos.md](spec/contratos.md) | Contratos de entrada/salida |
 | [spec/datos-medallon.md](spec/datos-medallon.md) | Capas de datos (bronze/silver/gold) + modelo Frame |
+| [spec/analytics.md](spec/analytics.md) | Rama de analytics: métricas, superficies de valor, dominancia |
+| [spec/matchmaking.md](spec/matchmaking.md) | Rama de matchmaking: OpenSkill, puente, reparto |
 | [investigations/datos-y-metricas.md](investigations/datos-y-metricas.md) | Datos y métricas espaciales |
 | [investigations/superficies-de-valor.md](investigations/superficies-de-valor.md) | Pitch control, OBSO, EPV |
 | [investigations/rating-y-matchmaking.md](investigations/rating-y-matchmaking.md) | OpenSkill, margen, dominancia |

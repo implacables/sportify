@@ -12,6 +12,8 @@ Mide el skill de los jugadores desde el tracking del partido (analytics) y los e
 | [docs/spec/overview.md](docs/spec/overview.md) | Arquitectura: stack, módulos, base de datos |
 | [docs/spec/contratos.md](docs/spec/contratos.md) | Contratos de entrada/salida |
 | [docs/spec/datos-medallon.md](docs/spec/datos-medallon.md) | Capas de datos (bronze/silver/gold) |
+| [docs/spec/analytics.md](docs/spec/analytics.md) | Rama de analytics: métricas, valor, dominancia |
+| [docs/spec/matchmaking.md](docs/spec/matchmaking.md) | Rama de matchmaking: OpenSkill, puente, reparto |
 | [docs/investigations/](docs/investigations/) | Temas factuales: datos, valor, rating |
 | [docs/decisions/log.md](docs/decisions/log.md) | Decisiones (ADR) |
 | [docs/research/](docs/research/) | Research + papers por tema |
