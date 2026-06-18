@@ -35,7 +35,7 @@ The **POC** proves that game-state reconstruction can run **fast and cheap enoug
 ### 2.1 In scope (POC)
 
 - User-facing upload of pretaped match video to **VPS-local storage**
-- Match footage captured with **DJI Osmo 360** — see [hardware/dji-osmo-360.md](../hardware/dji-osmo-360.md)
+- Match footage captured with a fixed elevated-mount camera — camera TBD; DJI Osmo 360 is a candidate (see [hardware/dji-osmo-360.md](../hardware/dji-osmo-360.md))
 - Venue setup data (field geometry, homography) persisted and reused — **eliminates per-frame calibration**
 - Team rosters linking platform users to jersey numbers
 - Automated reconstruction of player positions and identities from video
@@ -139,8 +139,8 @@ flowchart LR
 
 ### 5.3 Video upload
 
-- **FR-U1:** Users shall upload pretaped MP4 match video through a web interface. Expected source: **DJI Osmo 360** flat export (HEVC).
-- **FR-U2:** Upload shall support large files (target: up to ~20 GB, H.265/H.264). Actual file size depends on Osmo recording settings — see [hardware/dji-osmo-360.md](../hardware/dji-osmo-360.md).
+- **FR-U1:** Users shall upload pretaped MP4 match video through a web interface. Camera source is TBD; pipeline accepts H.265/H.264 in MP4.
+- **FR-U2:** Upload shall support large files (target: up to ~20 GB, H.265/H.264). Actual file size depends on camera and recording settings.
 - **FR-U3:** Upload shall land on **VPS-accessible storage** (local disk or VPS-attached volume); the application server may stream or proxy chunks — direct-to-cloud multipart upload is **not required** for POC.
 - **FR-U4:** Upload shall support progress and retry where possible.
 - **FR-U5:** On successful upload completion, the system shall create a processing job record.
@@ -261,7 +261,7 @@ Cloud equivalents (S3, SQS, Batch) are documented only as a **future production 
 |----------|------|
 | **Product stages (canonical)** | `docs/product-stages.md` |
 | Product overview | `docs/overview.md` |
-| Match camera | `docs/hardware/dji-osmo-360.md` |
+| Candidate match camera | `docs/hardware/dji-osmo-360.md` |
 | This spec | `docs/spec/overview.md` |
 | Pipeline overview | `sportify-game-reconstruction/docs/overview.md` |
 | Pipeline spec | `sportify-game-reconstruction/docs/spec/overview.md` |

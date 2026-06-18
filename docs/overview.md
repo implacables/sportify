@@ -114,7 +114,7 @@ Scoring v1 and matchmaking shall work from **reconstruction artifacts** (and sco
 
 Sportify is designed for **amateur football**, not broadcast or professional analytics:
 
-- **DJI Osmo 360** as the intended match camera — see [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md)
+- Fixed **elevated side-view** mount camera — camera choice is TBD; DJI Osmo 360 is one candidate (see [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md))
 - Fixed **elevated side-view** mount (flat MP4 export from single-lens or reframed capture)
 - Imperfect video quality and occasional occlusions
 - **VPS-scale** infrastructure — thesis/demo budget, not AWS at scale
@@ -172,7 +172,7 @@ The honest metric for the thesis is **measured wall-clock throughput** on repres
 | Document | Location |
 |----------|----------|
 | **Product stages (canonical)** | [product-stages.md](product-stages.md) |
-| **Match camera (DJI Osmo 360)** | [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md) |
+| **Match camera (candidate: DJI Osmo 360)** | [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md) |
 | Product specification | [spec/overview.md](spec/overview.md) |
 | Pipeline overview | [../sportify-game-reconstruction/docs/overview.md](../sportify-game-reconstruction/docs/overview.md) |
 | Pipeline specification | [../sportify-game-reconstruction/docs/spec/overview.md](../sportify-game-reconstruction/docs/spec/overview.md) |

@@ -1,0 +1,20 @@
+job_id: dev-sngs021
+
+input:
+  video_path: /workspace/SoccerNetGS-synth-clips/sngs-021.mp4
+  venue_id: null    # not yet wired — homography will be null
+  roster_id: null   # not yet wired — identity association not active
+
+output:
+  dir: /workspace/sportify/sportify-game-reconstruction/runs/dev-sngs021/
+
+processing:
+  frame_stride: 5
+  detection:
+    model: /workspace/sportify/sportify-game-reconstruction/benchmarks/yolo-soccernet/yolo26m.pt
+    imgsz: 640
+  tracking:
+    enabled: true
+  identity:
+    association:
+      mode: conditional   # only when track not yet mapped — no-op until roster wired
