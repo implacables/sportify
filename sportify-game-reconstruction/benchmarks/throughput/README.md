@@ -24,7 +24,7 @@ YAML files under `manifests/` describe a benchmark run:
 | File | Purpose |
 |------|---------|
 | [manifests/soccernet-clip.yaml](manifests/soccernet-clip.yaml) | Shared clip for apples-to-apples vs baseline |
-| [manifests/amateur-reference.yaml](manifests/amateur-reference.yaml) | Placeholder for DJI Osmo match footage |
+| [manifests/amateur-reference.yaml](manifests/amateur-reference.yaml) | Placeholder for amateur match footage |
 
 ## Running (when pipeline exists)
 

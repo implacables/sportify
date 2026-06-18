@@ -10,4 +10,4 @@
 
 Benchmarks: [../benchmarks/README.md](../benchmarks/README.md) · [SoccerNet GSR investigation](../benchmarks/soccernet-gsr/investigation.md)
 
-Hardware: [../../docs/hardware/dji-osmo-360.md](../../docs/hardware/dji-osmo-360.md) · Product docs: [../../docs/README.md](../../docs/README.md)
+Camera candidate: [../../docs/hardware/dji-osmo-360.md](../../docs/hardware/dji-osmo-360.md) · Product docs: [../../docs/README.md](../../docs/README.md)

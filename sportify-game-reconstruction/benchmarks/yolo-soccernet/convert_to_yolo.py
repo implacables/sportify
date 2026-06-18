@@ -147,6 +147,8 @@ def main() -> None:
         help="SoccerNet split to convert (ignored when --manifest given)",
     )
     parser.add_argument("--clips", help="Comma-separated clip IDs to convert (overrides manifest clip list)")
+    parser.add_argument("--yolo-split", dest="yolo_split", choices=["train", "val"],
+                        help="Override YOLO output split dir (default: derived from --split)")
     parser.add_argument("--dry-run", action="store_true", help="Print what would happen; write nothing")
     args = parser.parse_args()
 
@@ -161,21 +163,24 @@ def main() -> None:
     # Resolve which (sn_split, yolo_split, clip_ids) to process
     targets: list[tuple[str, str, list[str]]] = []
 
+    yolo_split_override = args.yolo_split  # may be None
+
     if args.manifest:
         manifest = parse_manifest(Path(args.manifest))
         sn_split = manifest["split"]
         clip_ids = args.clips.split(",") if args.clips else manifest["clips"]
         clip_ids = [c.strip() for c in clip_ids]
-        targets = [(sn_split, SN_TO_YOLO_SPLIT.get(sn_split, sn_split), clip_ids)]
+        yolo_split = yolo_split_override or SN_TO_YOLO_SPLIT.get(sn_split, sn_split)
+        targets = [(sn_split, yolo_split, clip_ids)]
     elif args.split == "all":
         for sn_split, yolo_split in SN_TO_YOLO_SPLIT.items():
             split_dir = sn_root / sn_split
             if split_dir.exists():
                 clip_ids = sorted(d.name for d in split_dir.iterdir() if d.is_dir() and d.name.startswith("SNGS-"))
-                targets.append((sn_split, yolo_split, clip_ids))
+                targets.append((sn_split, yolo_split_override or yolo_split, clip_ids))
     else:
         sn_split = args.split
-        yolo_split = SN_TO_YOLO_SPLIT.get(sn_split, sn_split)
+        yolo_split = yolo_split_override or SN_TO_YOLO_SPLIT.get(sn_split, sn_split)
         split_dir = sn_root / sn_split
         if args.clips:
             clip_ids = [c.strip() for c in args.clips.split(",")]

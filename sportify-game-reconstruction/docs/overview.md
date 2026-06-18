@@ -58,7 +58,7 @@ SoccerNet GSR runs six modules every frame. Our fixed-camera amateur context all
 
 ### Match video
 
-- **Camera:** DJI Osmo 360 — see [hardware doc](../../../docs/hardware/dji-osmo-360.md)
+- **Camera:** TBD — DJI Osmo 360 is a candidate (see [hardware doc](../../../docs/hardware/dji-osmo-360.md))
 - Format: MP4 (HEVC / H.265 from flat Single Lens or Boost export)
 - Source: pretaped, elevated fixed side view (camera mounted for the match)
 - Size: potentially very large (e.g. up to ~20 GB target per product spec; depends on recording settings)

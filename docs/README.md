@@ -14,7 +14,7 @@ Start here: **[product-stages.md](product-stages.md)** — canonical POC vs thes
 | [product-stages.md](product-stages.md) | Stage definitions (read first) |
 | [overview.md](overview.md) | Product overview — POC objective, VPS, SoccerNet baseline |
 | [spec/overview.md](spec/overview.md) | Product specification (POC); thesis chain outlined |
-| [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md) | Intended match camera — DJI Osmo 360 |
+| [hardware/dji-osmo-360.md](hardware/dji-osmo-360.md) | Candidate match camera — DJI Osmo 360 (under consideration, not finalised) |
 | [repo-structure.md](repo-structure.md) | Monorepo layout + GitHub migration |
 | [data-layout.md](data-layout.md) | `SPORTIFY_DATA_ROOT`, SoccerNet-GS paths, download |
 | [branching-strategy.md](branching-strategy.md) | Git branches: `main` + `experiment/*` |

@@ -1,15 +1,15 @@
-# DJI Osmo 360 — Intended Match Camera
+# DJI Osmo 360 — Candidate Match Camera
 
-**Status:** Planned input device  
-**Last updated:** 2026-05-24  
+**Status:** Under consideration — camera choice is not finalised  
+**Last updated:** 2026-06-18  
 
 **Sources:** [DJI Osmo 360 specs](https://www.dji.com/360/specs), [DJI Osmo 360 FAQ](https://www.dji.com/360/faq), [DrDrone Osmo 360 FAQ](https://drdrone.com/pages/dji-osmo-360-faq)
 
-Sportify intends to record amateur match footage with a **DJI Osmo 360**. This camera is expected to cover our field-capture needs: elevated fixed viewpoint, pretaped MP4 upload, and venue homography computed once at setup.
+Sportify is considering the **DJI Osmo 360** as the match camera. It is a candidate that fits the field-capture needs — elevated fixed viewpoint, pretaped MP4 upload, venue homography computed once at setup — but no camera has been officially selected yet.
 
 ---
 
-## Role in Sportify
+## How it fits Sportify's needs
 
 | Need | How Osmo 360 addresses it |
 |------|---------------------------|
@@ -91,7 +91,7 @@ Stored as **OSV**, not flat MP4. Using panoramic capture would require exporting
 | Max video bitrate | **170 Mbps** (official spec — applies when High bit rate is selected) |
 | Photo format | JPEG |
 
-The POC pipeline spec requires H.265 in MP4. Osmo 360 flat exports align with **HEVC in MP4**.
+The POC pipeline accepts H.265/H.264 in MP4. Osmo 360 flat exports align with **HEVC in MP4**.
 
 ---
 
@@ -109,9 +109,9 @@ The POC pipeline spec requires H.265 in MP4. Osmo 360 flat exports align with **
 
 Official documentation confirms **170 Mbps maximum** when recording at high quality settings. There is **no arbitrary Mbps slider** in DJI's published controls.
 
-### Sportify intent
+### Notes (if this camera is selected)
 
-Configure a **venue recording profile** (resolution, fps, bit rate preset, lens mode) tuned for reconstruction quality vs file size — **not** max bitrate by default. The optimal profile is **TBD** after test recordings and pipeline trials.
+A **venue recording profile** (resolution, fps, bit rate preset, lens mode) would need to be tuned for reconstruction quality vs file size — **not** max bitrate by default. The optimal profile is **TBD** after test recordings and pipeline trials.
 
 **Levers available today:**
 
@@ -121,7 +121,7 @@ Configure a **venue recording profile** (resolution, fps, bit rate preset, lens 
 
 ---
 
-## Match Capture Workflow (intended)
+## Match Capture Workflow (if this camera is selected)
 
 A full match is **~90 minutes**. Sportify intends to record in **two segments** with a **halftime break** for charging and storage headroom:
 
@@ -208,10 +208,10 @@ For pipeline ingest, export **flat MP4 (HEVC)** at the chosen resolution. DJI Mi
 
 ---
 
-## Implications for the Reconstruction POC
+## Fit for the Reconstruction POC (if selected)
 
-| Topic | Implication |
-|-------|-------------|
+| Topic | Assessment |
+|-------|------------|
 | Fixed camera assumption | Satisfied when mounted and left unmoved |
 | HEVC MP4 ingest | Satisfied by Single Lens / Boost flat export |
 | Per-frame calibration eliminated | Satisfied — homography from venue setup |

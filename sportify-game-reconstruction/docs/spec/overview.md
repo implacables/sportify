@@ -70,12 +70,12 @@ The POC succeeds when reconstruction throughput and VPS cost model make **many m
 
 | Property | Requirement |
 |----------|-------------|
-| Camera | **DJI Osmo 360** (intended) — [hardware doc](../../../docs/hardware/dji-osmo-360.md) |
+| Camera | TBD — DJI Osmo 360 is a candidate ([hardware doc](../../../docs/hardware/dji-osmo-360.md)) |
 | Container | MP4 |
-| Codecs | H.265 (HEVC) from Osmo flat export; worker must decode via FFmpeg or equivalent |
+| Codecs | H.265 or H.264; worker must decode via FFmpeg or equivalent |
 | View | Elevated side view, fixed mount for the match |
 | Location | VPS filesystem path; referenced by job record |
-| Max size (target) | ~20 GB (product spec; actual size depends on Osmo recording settings) |
+| Max size (target) | ~20 GB (product spec; actual size depends on camera and recording settings) |
 
 ### 4.2 Venue data (`input.venue`)
 
