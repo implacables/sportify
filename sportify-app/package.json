@@ -2,6 +2,7 @@
   "name": "sportify-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "pnpm@11.10.0",
   "dependencies": {
     "@expo/ui": "~57.0.3",
     "expo": "~57.0.2",
