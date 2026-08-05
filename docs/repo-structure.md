@@ -20,11 +20,13 @@ sportify/                          # github.com/<org>/sportify
 ├── README.md
 ├── docs/
 ├── scripts/
-└── sportify-game-reconstruction/
-    ├── benchmarks/
-    ├── experiments/
-    ├── docs/
-    └── src/                       # future pipeline code
+├── sportify-game-reconstruction/  # POC: reconstruction pipeline
+│   ├── benchmarks/
+│   ├── experiments/
+│   ├── docs/
+│   └── src/                       # future pipeline code
+└── sportify-scoring/              # thesis: scoring + matchmaking
+    └── docs/                      # architecture, roadmap, decisions, research
 ```
 
 ## GitHub migration (completed)
@@ -52,6 +54,6 @@ Data and vendor baselines stay **outside** the repo. SoccerNet-GS lives at `$SPO
 
 See **[branching-strategy.md](branching-strategy.md)**. Summary: **`main`** for the POC baseline; **`experiment/<slug>`** for spikes (e.g. `experiment/easyocr`).
 
-## Future thesis repos (not monorepo)
+## Thesis subsystems (in the monorepo)
 
-Scoring and matchmaking → separate repos when built (`sportify-scoring`, etc.); consume reconstruction JSON artifacts only.
+Scoring and matchmaking live in **[`sportify-scoring/`](../sportify-scoring/)** within this monorepo (decision: keep one repo during the POC; the modular-monolith design lets them be extracted later if needed). They consume the reconstruction JSON artifacts. See [`sportify-scoring/docs/`](../sportify-scoring/docs/index.md).

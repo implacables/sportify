@@ -47,3 +47,9 @@ scripts/sportify-env.local.sh
 *.swp
 .DS_Store
 Thumbs.db
+
+# Scoring system: local scratch (consolidated into sportify-scoring/docs/research/)
+_research-notes/
+
+# Generated documents (regenerate from .md with pandoc)
+*.docx
