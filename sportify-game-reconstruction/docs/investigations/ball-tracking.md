@@ -1,7 +1,7 @@
 # Ball Tracking — Investigation & Phased Plan
 
-**Status:** Investigation complete; **Phase 1 spike recommended**  
-**Last updated:** 2026-05-24  
+**Status:** Investigation complete; **WASB-SBDT selected for Phase 1 spike**  
+**Last updated:** 2026-06-19  
 **Stage:** Not in reconstruction POC spec (v0.3). Adjacent to deferred **event detection**; may inform future scoring or analytics.
 
 ---
@@ -76,8 +76,9 @@ Secondary metrics (report alongside, not gating): precision, typical ball size i
 
 | Approach | Efficiency | Soccer fit | Output | Notes |
 |----------|------------|------------|--------|-------|
-| [RF-DETR Nano/Small](https://github.com/roboflow/rfdetr) | Low–medium GPU | Good after fine-tune | Bbox | [AutoCam-AI](https://github.com/chele-s/AutoCam-AI): detect at 720p, filter on CPU |
-| [RF-DETR SoccerNet fine-tune](https://huggingface.co/julianzu9612/RFDETR-Soccernet) | Medium–high | Strong | Bbox | Ball F1 ~74.7%; candidate if Nano recall is low |
+| **[WASB-SBDT](https://github.com/nttcom/WASB-SBDT)** | **GPU** | **Strong — validated on soccer** | Bbox + track | **Selected for Phase 1 spike** |
+| [RF-DETR Nano/Small](https://github.com/roboflow/rfdetr) | Low–medium GPU | Good after fine-tune | Bbox | Considered; superseded by WASB-SBDT |
+| [RF-DETR SoccerNet fine-tune](https://huggingface.co/julianzu9612/RFDETR-Soccernet) | Medium–high | Strong | Bbox | Ball F1 ~74.7% |
 | [TrackNetV4](https://github.com/TrackNetV4/TrackNetV4) | Moderate | Tennis/badminton; soccer TBD | Heatmap `(u, v)` | Needs domain fine-tune |
 | [VballNet / VballNetFast](https://github.com/asigatchov/vball-net) | **100–300 FPS CPU** (ONNX) | Volleyball | `(u, v)` | Cheap; soccer not validated |
 | YOLO + ByteTrack | Low per frame | **Poor ball recall** | Bbox | Sanity baseline only |
@@ -107,18 +108,15 @@ Secondary metrics (report alongside, not gating): precision, typical ball size i
 
 ## Phase 1 — 2D Detection & Tracking Spike ✅ *Active plan*
 
-**Goal:** Hit **≥65% tracking consistency** on labeled Sportify footage with a lightweight 2D pipeline.
+**Goal:** Hit **≥65% tracking consistency** on labeled Sportify footage using WASB-SBDT.
 
 **Scope:**
 
 - Sample ~500–1000 frames (or ~10 min) from target venue/camera setup.
 - Manual labels: ball visible `(u, v)` or bbox; mark occluded / not visible (excluded from metric).
-- Benchmark (POC VPS hardware when possible):
-  - RF-DETR-Nano or RF-DETR-Small (off-the-shelf; SoccerNet fine-tune if needed)
-  - YOLOv8n baseline
-  - TrackNetV4 or VballNet (optional)
-- Input sizes: 640 and 1280; frame stride every 1–5 frames.
-- CPU-side: linear or Kalman interpolation for gaps ≤5 frames; optional jump rejection (>120 px, AutoCam pattern).
+- Benchmark WASB-SBDT on POC VPS hardware; measure GPU cost alongside player reconstruction throughput (pipeline currently at ~32 FPS — ball tracking must not regress this significantly).
+- Pipeline runs on every *k* frames (not at camera frame rate); WASB-SBDT runs at the same stride, reducing GPU pressure further.
+- CPU-side: linear or Kalman interpolation for gaps ≤5 frames.
 
 **Success criteria:**
 
@@ -143,7 +141,7 @@ Secondary metrics (report alongside, not gating): precision, typical ball size i
 
 ```
 Video frame
-    → [every k frames] RF-DETR-Nano @ 720p  (or winning Phase 1 model)
+    → WASB-SBDT (GPU)
     → CPU: interpolate / Kalman for gaps ≤5 frames
     → homography: footpoint → field (x, y)
     → ball track artifact (format TBD)
@@ -170,6 +168,7 @@ Previously drafted Phase 2 (3D height) and Phase 3 (occlusion state machine) are
 | 2026-05-24 | Literature investigation complete. **2D only**; height/3D out of scope. |
 | 2026-05-24 | **Phase 1 spike approved** — target **≥65% tracking consistency**. |
 | 2026-05-24 | Ball remains **out of reconstruction POC spec** until Phase 1 pass + product decision. |
+| 2026-06-19 | **WASB-SBDT selected** for Phase 1 spike over RF-DETR-Nano. Pipeline currently at ~32 FPS; GPU headroom exists given GTATrack (CPU-bound player tracker) and stored homography. |
 
 ---
 
