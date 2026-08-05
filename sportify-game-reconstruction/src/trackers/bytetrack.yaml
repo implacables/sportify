@@ -1,0 +1,22 @@
+tracker_type: bytetrack
+
+# First-stage match: detections above track_high_thresh are associated greedily.
+track_high_thresh: 0.25
+
+# Second-stage match: low-score detections (between low and high) are used
+# to recover existing tracks that went unmatched in stage one.
+track_low_thresh: 0.1
+
+# Minimum confidence to initialise a new track.
+new_track_thresh: 0.25
+
+# Frames (as fed to the tracker) to keep a lost track alive before dropping it.
+# With frame_stride=5 this equals track_buffer * stride actual frames
+# (e.g. 30 * 5 = 150 frames = 6 s at 25 fps).
+track_buffer: 30
+
+# IoU similarity threshold for associating detections to existing tracks.
+match_thresh: 0.8
+
+# Fuse detection confidence into the matching cost; stabilises weak detections.
+fuse_score: true

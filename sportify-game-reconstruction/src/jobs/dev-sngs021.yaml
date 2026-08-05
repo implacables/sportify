@@ -15,6 +15,7 @@ processing:
     imgsz: 640
   tracking:
     enabled: true
+    config: trackers/bytetrack.yaml
   identity:
     association:
       mode: conditional   # only when track not yet mapped — no-op until roster wired
